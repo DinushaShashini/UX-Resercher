@@ -1419,6 +1419,12 @@ input, select { font-family: var(--font-primary); color: inherit; }
   align-items: center;
   justify-content: center;
 }
+
+/* Ensure hidden attribute wins over display:flex (fixes stuck loader) */
+.reanalyze-overlay[hidden],
+.analyzing-overlay[hidden] {
+  display: none !important;
+}
 .reanalyze-spinner {
   display: flex;
   flex-direction: column;

@@ -252,6 +252,9 @@ const state = {
   analyzing: false,
 };
 
+let analysisTimer = null;
+let stepTimer = null;
+
 /* ═══════════════════════════════════════════════════
    3. DOM
    ═══════════════════════════════════════════════════ */
@@ -262,7 +265,8 @@ const $$ = sel => document.querySelectorAll(sel);
    4. INIT
    ═══════════════════════════════════════════════════ */
 document.addEventListener('DOMContentLoaded', () => {
-  lucide.createIcons();
+  hideAnalysisOverlays();
+  if (typeof lucide !== 'undefined') lucide.createIcons();
   renderDashboard('swe');
   bindEvents();
 });
@@ -358,7 +362,7 @@ function animateRingScore(targetScore) {
    ═══════════════════════════════════════════════════ */
 function renderRadarChart(data) {
   const canvas = $('radarChart');
-  if (!canvas) return;
+  if (!canvas || typeof Chart === 'undefined') return;
 
   if (state.chartInstances.radar) {
     state.chartInstances.radar.destroy();
@@ -433,7 +437,7 @@ function renderRadarChart(data) {
    ═══════════════════════════════════════════════════ */
 function renderCategoryChart(data) {
   const canvas = $('categoryChart');
-  if (!canvas) return;
+  if (!canvas || typeof Chart === 'undefined') return;
 
   if (state.chartInstances.category) {
     state.chartInstances.category.destroy();
@@ -699,6 +703,8 @@ function renderInternships(data) {
       </div>
     `;
   }).join('');
+
+  setTimeout(applyLogoColors, 50);
 }
 
 function handleApply(company, position) {
@@ -831,11 +837,10 @@ function bindEvents() {
     });
   }
 
-  // Keyboard: cards are focusable
+  // Keyboard: Escape dismisses loading overlay
   document.addEventListener('keydown', e => {
-    if (e.key === 'Escape') {
-      const overlay = $('reanalyzeOverlay');
-      if (overlay && !overlay.hidden) overlay.hidden = true;
+    if (e.key === 'Escape' && state.analyzing) {
+      finishAnalysis(state.currentRole, true);
     }
   });
 }
@@ -843,36 +848,80 @@ function bindEvents() {
 /* ═══════════════════════════════════════════════════
    18. TRIGGER ANALYSIS (with animated loader)
    ═══════════════════════════════════════════════════ */
+function hideAnalysisOverlays() {
+  const reanalyze = $('reanalyzeOverlay');
+  const analyzing = $('analyzingOverlay');
+  const dashboard = $('skillDashboard');
+
+  if (reanalyze) reanalyze.hidden = true;
+  if (analyzing) analyzing.hidden = true;
+  if (dashboard) {
+    dashboard.style.opacity = '1';
+    dashboard.removeAttribute('aria-busy');
+  }
+}
+
+function finishAnalysis(roleKey, cancelled = false) {
+  clearTimeout(analysisTimer);
+  clearInterval(stepTimer);
+  analysisTimer = null;
+  stepTimer = null;
+
+  try {
+    if (!cancelled) {
+      renderDashboard(roleKey);
+      if (typeof lucide !== 'undefined') lucide.createIcons();
+      const analyzeLabel = $('analyzeRoleLabel');
+      if (analyzeLabel) analyzeLabel.textContent = ROLE_DATA[roleKey]?.label || roleKey;
+      showToast(`Analysis complete for ${ROLE_DATA[roleKey]?.label || roleKey}`);
+    } else {
+      showToast('Analysis cancelled');
+    }
+  } catch (err) {
+    console.error('Skill Match analysis failed:', err);
+    showToast('Could not refresh analysis. Showing previous results.');
+  } finally {
+    hideAnalysisOverlays();
+    state.analyzing = false;
+  }
+}
+
 function triggerAnalysis(roleKey) {
+  if (!ROLE_DATA[roleKey]) return;
+
+  clearTimeout(analysisTimer);
+  clearInterval(stepTimer);
+
+  state.analyzing = true;
+  state.currentRole = roleKey;
+
   const overlay   = $('reanalyzeOverlay');
   const dashboard = $('skillDashboard');
 
   if (overlay) overlay.hidden = false;
-  if (dashboard) dashboard.style.opacity = '0.4';
+  if (dashboard) {
+    dashboard.style.opacity = '0.4';
+    dashboard.setAttribute('aria-busy', 'true');
+  }
 
-  // Simulate analysis steps
+  // Animate progress steps in the inline loader (if present)
   const steps = $$('#progressSteps .prog-step');
   let stepIndex = 0;
+  steps.forEach(s => s.classList.remove('active', 'done'));
 
-  const stepTimer = setInterval(() => {
+  stepTimer = setInterval(() => {
     if (steps[stepIndex]) {
       steps.forEach(s => s.classList.remove('active'));
       steps[stepIndex].classList.add('active', 'done');
     }
     stepIndex++;
-    if (stepIndex >= steps.length) clearInterval(stepTimer);
+    if (stepIndex >= steps.length) {
+      clearInterval(stepTimer);
+      stepTimer = null;
+    }
   }, 500);
 
-  setTimeout(() => {
-    if (overlay)   overlay.hidden = true;
-    if (dashboard) dashboard.style.opacity = '1';
-    renderDashboard(roleKey);
-    lucide.createIcons();
-    showToast(`Analysis complete for ${ROLE_DATA[roleKey]?.label || roleKey}`);
-    // Update role pill for analyze label
-    const analyzeLabel = $('analyzeRoleLabel');
-    if (analyzeLabel) analyzeLabel.textContent = ROLE_DATA[roleKey]?.label || roleKey;
-  }, 2400);
+  analysisTimer = setTimeout(() => finishAnalysis(roleKey), 2400);
 }
 
 /* ═══════════════════════════════════════════════════
@@ -914,36 +963,4 @@ function applyLogoColors() {
     const cls = [...el.classList].find(c => c.startsWith('logo-'));
     if (cls && logo_swatch[cls]) el.style.background = logo_swatch[cls];
   });
-}
-
-// Extend renderInternships to apply colors
-const _origRenderInternships = renderInternships;
-window.renderInternships = function(data) {
-  _origRenderInternships(data);
-  setTimeout(applyLogoColors, 50);
-};
-
-// Also patch renderDashboard post-hook
-const _origRenderDashboard = renderDashboard;
-function renderDashboard(roleKey) {
-  const data = ROLE_DATA[roleKey];
-  if (!data) return;
-  state.currentRole = roleKey;
-  animateRingScore(data.matchScore);
-  const pill = $('currentRolePill');
-  if (pill) pill.textContent = data.label;
-  setEl('miniMatched', data.matched?.length || 18);
-  setEl('miniMissing', data.missing?.length || 4);
-  setEl('miniTotal',   (data.matched?.length || 18) + (data.missing?.length || 4));
-  updateQuickStats(data);
-  renderRadarChart(data);
-  renderCategoryChart(data);
-  renderKeywordDensity(data);
-  renderMatchedSkills(data);
-  renderMissingSkills(data);
-  renderSuggestions(data);
-  renderCourses(data, state.courseFilter);
-  renderInternships(data);
-  renderRoadmap(data);
-  setTimeout(() => { applyLogoColors(); lucide.createIcons(); }, 100);
 }
