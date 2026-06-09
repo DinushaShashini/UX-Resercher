@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>InternLink — Application Tracker</title>
+  <meta name="description" content="Track every internship application across all stages with a drag-and-drop Kanban board." />
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Outfit:wght@400;500;600;700&display=swap" rel="stylesheet" />
+
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+
+  <link rel="stylesheet" href="tracker.css" />
+</head>
+<body>
+
+  <!-- Ambient Background Blobs -->
+  <div class="glow-blob blob-1" aria-hidden="true"></div>
+  <div class="glow-blob blob-2" aria-hidden="true"></div>
+  <div class="glow-blob blob-3" aria-hidden="true"></div>
+
+  <div class="app-layout">
+
+    <!-- ═══════════════════════════ SIDEBAR ═══ -->
+    <aside class="sidebar glass-panel" id="sidebar">
+      <div class="sidebar-header">
+        <a href="index.html" class="logo">
+          <span class="logo-icon"><i data-lucide="link-2"></i></span>
+          <span class="logo-text">InternLink</span>
+        </a>
+        <button class="sidebar-pin-btn" id="sidebarPinBtn" aria-label="Collapse sidebar" title="Collapse">
+          <i data-lucide="panel-left-close"></i>
+        </button>
+      </div>
+
+      <nav class="sidebar-nav" aria-label="Main navigation">
+        <a href="dashboard.html"   class="sidebar-link"><i data-lucide="layout-dashboard"></i><span>Dashboard</span></a>
+        <a href="internships.html" class="sidebar-link"><i data-lucide="briefcase"></i><span>Internships</span></a>
+        <a href="tracker.html"     class="sidebar-link active"><i data-lucide="clipboard-list"></i><span>Applications</span><span class="nav-badge" id="totalBadge">12</span></a>
+        <a href="#"                class="sidebar-link"><i data-lucide="file-text"></i><span>Resume</span></a>
+        <a href="skills.html"      class="sidebar-link"><i data-lucide="zap"></i><span>Skill Match</span></a>
+        <a href="#"                class="sidebar-link"><i data-lucide="user"></i><span>Profile</span></a>
+        <a href="#"                class="sidebar-link"><i data-lucide="settings"></i><span>Settings</span></a>
+      </nav>
+
+      <div class="sidebar-footer">
+        <div class="user-widget">
+          <div class="user-avatar" role="img" aria-label="Arjun Patel avatar"></div>
+          <div class="user-info">
+            <p class="user-name">Arjun Patel</p>
+            <p class="user-sub">CS Junior · UT Austin</p>
+          </div>
+          <button class="logout-btn" aria-label="Log out"><i data-lucide="log-out"></i></button>
+        </div>
+      </div>
+    </aside>
+
+    <!-- ═══════════════════════════ MAIN ══════ -->
+    <main class="main-content" id="mainContent">
+
+      <!-- ── Page Header ── -->
+      <header class="page-header">
+        <div class="header-left">
+          <div class="page-title-group">
+            <span class="page-icon-badge" aria-hidden="true"><i data-lucide="kanban"></i></span>
+            <div>
+              <h1 class="page-title">Application Tracker</h1>
+              <p class="page-sub">Drag cards between columns to update status · <span class="highlight" id="activeCount">12</span> active applications</p>
+            </div>
+          </div>
+        </div>
+        <div class="header-right">
+          <!-- Search -->
+          <div class="header-search glass-panel">
+            <i data-lucide="search"></i>
+            <input type="text" id="boardSearchInput" placeholder="Search company or role…" aria-label="Search applications" autocomplete="off" />
+          </div>
+          <!-- Filter by stage -->
+          <div class="select-wrapper glass-panel">
+            <i data-lucide="filter"></i>
+            <select id="filterStageSelect" aria-label="Filter by stage">
+              <option value="all">All Stages</option>
+              <option value="saved">Saved</option>
+              <option value="applied">Applied</option>
+              <option value="interview">Interview</option>
+              <option value="offer">Offer</option>
+              <option value="rejected">Rejected</option>
+            </select>
+            <i data-lucide="chevron-down" class="select-chevron"></i>
+          </div>
+          <!-- Sort -->
+          <div class="select-wrapper glass-panel">
+            <i data-lucide="arrow-up-down"></i>
+            <select id="sortSelect" aria-label="Sort cards">
+              <option value="newest">Newest First</option>
+              <option value="oldest">Oldest First</option>
+              <option value="company">Company A–Z</option>
+              <option value="deadline">By Deadline</option>
+            </select>
+            <i data-lucide="chevron-down" class="select-chevron"></i>
+          </div>
+          <!-- View toggle -->
+          <div class="view-toggle glass-panel" role="group" aria-label="View mode">
+            <button class="view-btn active" id="kanbanViewBtn" aria-label="Kanban view" title="Kanban">
+              <i data-lucide="kanban"></i>
+            </button>
+            <button class="view-btn" id="listViewBtn" aria-label="List view" title="List">
+              <i data-lucide="list"></i>
+            </button>
+          </div>
+          <!-- Add Card -->
+          <button class="btn btn-primary" id="addCardBtn">
+            <i data-lucide="plus"></i>
+            Add Application
+          </button>
+        </div>
+      </header>
+
+      <!-- ── Pipeline Summary Strip ── -->
+      <div class="pipeline-strip" id="pipelineStrip" aria-label="Application pipeline summary">
+        <!-- Injected by JS -->
+      </div>
+
+      <!-- ── Kanban Board ── -->
+      <div class="board-wrapper" id="boardWrapper">
+        <div class="kanban-board" id="kanbanBoard" role="region" aria-label="Kanban application board">
+          <!-- Columns injected by JS -->
+        </div>
+      </div>
+
+      <!-- ── List View (hidden by default) ── -->
+      <div class="list-view-wrapper" id="listViewWrapper" hidden>
+        <div class="list-table-container glass-card">
+          <table class="list-table" id="listTable" aria-label="Applications list">
+            <thead>
+              <tr>
+                <th>Company</th>
+                <th>Position</th>
+                <th>Stage</th>
+                <th>Date Applied</th>
+                <th>Deadline</th>
+                <th>Match</th>
+                <th>Notes</th>
+                <th class="th-actions">Actions</th>
+              </tr>
+            </thead>
+            <tbody id="listTableBody">
+              <!-- Injected by JS -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+    </main>
+  </div>
+
+  <!-- ════════════════════════════════════════════════════
+       ADD / EDIT CARD MODAL
+       ════════════════════════════════════════════════════ -->
+  <div class="modal-backdrop" id="modalBackdrop" aria-hidden="true">
+    <div class="modal glass-panel" id="cardModal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+      <div class="modal-header">
+        <h2 class="modal-title" id="modalTitle">Add Application</h2>
+        <button class="modal-close-btn" id="modalCloseBtn" aria-label="Close modal">
+          <i data-lucide="x"></i>
+        </button>
+      </div>
+
+      <form class="modal-body" id="cardForm" novalidate>
+        <!-- Row 1: Company + Position -->
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label" for="fCompany">Company <span class="req">*</span></label>
+            <div class="input-icon-wrap">
+              <i data-lucide="building-2"></i>
+              <input type="text" id="fCompany" class="form-input" placeholder="e.g. Google" required autocomplete="organization" />
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="fPosition">Position <span class="req">*</span></label>
+            <div class="input-icon-wrap">
+              <i data-lucide="briefcase"></i>
+              <input type="text" id="fPosition" class="form-input" placeholder="e.g. SWE Intern" required />
+            </div>
+          </div>
+        </div>
+
+        <!-- Row 2: Stage + Work Type -->
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label" for="fStage">Stage <span class="req">*</span></label>
+            <div class="input-icon-wrap select-wrap">
+              <i data-lucide="layers"></i>
+              <select id="fStage" class="form-input" required>
+                <option value="saved">💾 Saved</option>
+                <option value="applied" selected>📤 Applied</option>
+                <option value="interview">📅 Interview</option>
+                <option value="offer">🎉 Offer</option>
+                <option value="rejected">❌ Rejected</option>
+              </select>
+              <i data-lucide="chevron-down" class="sel-icon"></i>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="fWorkType">Work Type</label>
+            <div class="input-icon-wrap select-wrap">
+              <i data-lucide="wifi"></i>
+              <select id="fWorkType" class="form-input">
+                <option value="remote">🌐 Remote</option>
+                <option value="hybrid" selected>🏢 Hybrid</option>
+                <option value="onsite">📍 On-site</option>
+              </select>
+              <i data-lucide="chevron-down" class="sel-icon"></i>
+            </div>
+          </div>
+        </div>
+
+        <!-- Row 3: Date Applied + Deadline -->
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label" for="fDateApplied">Date Applied</label>
+            <div class="input-icon-wrap">
+              <i data-lucide="calendar"></i>
+              <input type="date" id="fDateApplied" class="form-input" />
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="fDeadline">Deadline</label>
+            <div class="input-icon-wrap">
+              <i data-lucide="clock"></i>
+              <input type="date" id="fDeadline" class="form-input" />
+            </div>
+          </div>
+        </div>
+
+        <!-- Row 4: Location + Salary -->
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label" for="fLocation">Location</label>
+            <div class="input-icon-wrap">
+              <i data-lucide="map-pin"></i>
+              <input type="text" id="fLocation" class="form-input" placeholder="e.g. San Francisco, CA" />
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="fSalary">Salary / Stipend</label>
+            <div class="input-icon-wrap">
+              <i data-lucide="dollar-sign"></i>
+              <input type="text" id="fSalary" class="form-input" placeholder="e.g. $8,500 / mo" />
+            </div>
+          </div>
+        </div>
+
+        <!-- Row 5: Priority + Match Score -->
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label" for="fPriority">Priority</label>
+            <div class="priority-selector" id="prioritySelector" role="group" aria-label="Card priority">
+              <button type="button" class="priority-btn" data-priority="low">Low</button>
+              <button type="button" class="priority-btn active" data-priority="medium">Medium</button>
+              <button type="button" class="priority-btn" data-priority="high">High</button>
+              <button type="button" class="priority-btn" data-priority="dream">🌟 Dream</button>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="fMatchScore">Match Score (%)</label>
+            <div class="input-icon-wrap">
+              <i data-lucide="zap"></i>
+              <input type="number" id="fMatchScore" class="form-input" placeholder="e.g. 87" min="0" max="100" />
+            </div>
+          </div>
+        </div>
+
+        <!-- Row 6: Contact -->
+        <div class="form-row">
+          <div class="form-group full-width">
+            <label class="form-label" for="fContact">Recruiter / Contact</label>
+            <div class="input-icon-wrap">
+              <i data-lucide="user"></i>
+              <input type="text" id="fContact" class="form-input" placeholder="Name · email@company.com · LinkedIn" />
+            </div>
+          </div>
+        </div>
+
+        <!-- Row 7: Skills -->
+        <div class="form-row">
+          <div class="form-group full-width">
+            <label class="form-label" for="fSkills">Required Skills</label>
+            <div class="input-icon-wrap">
+              <i data-lucide="code-2"></i>
+              <input type="text" id="fSkills" class="form-input" placeholder="Python, React, SQL (comma-separated)" />
+            </div>
+          </div>
+        </div>
+
+        <!-- Row 8: Notes -->
+        <div class="form-group full-width">
+          <label class="form-label" for="fNotes">Notes</label>
+          <div class="textarea-icon-wrap">
+            <i data-lucide="file-text"></i>
+            <textarea id="fNotes" class="form-textarea" placeholder="Interview prep notes, follow-up reminders, key contacts…" rows="3"></textarea>
+          </div>
+        </div>
+
+        <!-- Next steps / interview date -->
+        <div class="form-row" id="interviewDateRow" style="display:none;">
+          <div class="form-group full-width">
+            <label class="form-label" for="fInterviewDate">Interview Date &amp; Time</label>
+            <div class="input-icon-wrap">
+              <i data-lucide="video"></i>
+              <input type="datetime-local" id="fInterviewDate" class="form-input" />
+            </div>
+          </div>
+        </div>
+
+        <input type="hidden" id="fCardId" value="" />
+      </form>
+
+      <div class="modal-footer">
+        <button type="button" class="btn btn-ghost" id="modalCancelBtn">Cancel</button>
+        <button type="button" class="btn btn-primary" id="modalSaveBtn">
+          <i data-lucide="check"></i>
+          <span id="modalSaveBtnLabel">Save Application</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ════════════════════════════════════════════════════
+       CARD DETAIL DRAWER (right panel)
+       ════════════════════════════════════════════════════ -->
+  <div class="drawer-overlay" id="drawerOverlay" aria-hidden="true"></div>
+  <aside class="detail-drawer glass-panel" id="detailDrawer" aria-label="Application detail" aria-hidden="true">
+    <div class="drawer-header">
+      <h2 class="drawer-title" id="drawerTitle">Application Detail</h2>
+      <div class="drawer-header-actions">
+        <button class="icon-btn" id="drawerEditBtn" aria-label="Edit application"><i data-lucide="edit-3"></i></button>
+        <button class="icon-btn danger" id="drawerDeleteBtn" aria-label="Delete application"><i data-lucide="trash-2"></i></button>
+        <button class="icon-btn" id="drawerCloseBtn" aria-label="Close drawer"><i data-lucide="x"></i></button>
+      </div>
+    </div>
+    <div class="drawer-body" id="drawerBody">
+      <!-- Injected by JS -->
+    </div>
+  </aside>
+
+  <!-- ════════════════════════════════════════════════════
+       CONFIRM DELETE DIALOG
+       ════════════════════════════════════════════════════ -->
+  <div class="confirm-backdrop" id="confirmBackdrop" aria-hidden="true">
+    <div class="confirm-dialog glass-panel" role="alertdialog" aria-labelledby="confirmTitle" aria-describedby="confirmDesc">
+      <div class="confirm-icon"><i data-lucide="alert-triangle"></i></div>
+      <h3 class="confirm-title" id="confirmTitle">Delete Application?</h3>
+      <p class="confirm-desc" id="confirmDesc">This action cannot be undone. The card will be permanently removed from your tracker.</p>
+      <div class="confirm-actions">
+        <button class="btn btn-ghost" id="confirmCancelBtn">Cancel</button>
+        <button class="btn btn-danger" id="confirmDeleteBtn"><i data-lucide="trash-2"></i> Delete</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── Toast ── -->
+  <div class="toast" id="toast" role="alert" aria-live="assertive">
+    <span class="toast-icon-wrap" id="toastIconWrap"><i data-lucide="check-circle"></i></span>
+    <span id="toastMsg">Saved!</span>
+    <button class="toast-close" id="toastClose" aria-label="Dismiss"><i data-lucide="x"></i></button>
+  </div>
+
+  <script src="tracker.js"></script>
+</body>
+</html>

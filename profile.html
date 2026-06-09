@@ -1,0 +1,520 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>InternLink — Student Profile</title>
+  <meta name="description" content="Arjun Patel — Computer Science Student at UT Austin. View skills, education, certifications, and projects." />
+
+  <!-- Open Graph for recruiter sharing -->
+  <meta property="og:title"       content="Arjun Patel — CS Student · InternLink" />
+  <meta property="og:description" content="Junior CS student at UT Austin · Python · React · Open to SWE internships" />
+  <meta property="og:type"        content="profile" />
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Outfit:wght@400;500;600;700&display=swap" rel="stylesheet" />
+
+  <!-- Chart.js for skill radar -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+
+  <link rel="stylesheet" href="profile.css" />
+</head>
+<body>
+
+  <!-- Ambient Background -->
+  <div class="glow-blob blob-1" aria-hidden="true"></div>
+  <div class="glow-blob blob-2" aria-hidden="true"></div>
+  <div class="glow-blob blob-3" aria-hidden="true"></div>
+
+  <div class="app-layout">
+
+    <!-- ═══════════════════════ SIDEBAR ═══════════════════════ -->
+    <aside class="sidebar glass-panel" id="sidebar">
+      <div class="sidebar-header">
+        <a href="index.html" class="logo">
+          <span class="logo-icon"><i data-lucide="link-2"></i></span>
+          <span class="logo-text">InternLink</span>
+        </a>
+        <button class="sidebar-collapse-btn" id="sidebarCollapseBtn" aria-label="Collapse sidebar">
+          <i data-lucide="panel-left-close"></i>
+        </button>
+      </div>
+
+      <nav class="sidebar-nav" aria-label="Main navigation">
+        <a href="dashboard.html"    class="sidebar-link"><i data-lucide="layout-dashboard"></i><span>Dashboard</span></a>
+        <a href="internships.html"  class="sidebar-link"><i data-lucide="briefcase"></i><span>Internships</span></a>
+        <a href="tracker.html"      class="sidebar-link"><i data-lucide="clipboard-list"></i><span>Applications</span><span class="nav-badge">12</span></a>
+        <a href="resume.html"       class="sidebar-link"><i data-lucide="file-text"></i><span>Resume</span></a>
+        <a href="skills.html"       class="sidebar-link"><i data-lucide="zap"></i><span>Skill Match</span></a>
+        <a href="profile.html"      class="sidebar-link active"><i data-lucide="user"></i><span>Profile</span></a>
+        <a href="#"                 class="sidebar-link"><i data-lucide="settings"></i><span>Settings</span></a>
+      </nav>
+
+      <div class="sidebar-footer">
+        <div class="user-widget">
+          <div class="user-avatar" aria-hidden="true"></div>
+          <div class="user-info">
+            <p class="user-name">Arjun Patel</p>
+            <p class="user-sub">CS Junior · UT Austin</p>
+          </div>
+          <button class="logout-btn" aria-label="Log out"><i data-lucide="log-out"></i></button>
+        </div>
+      </div>
+    </aside>
+
+    <!-- ═══════════════════════ MAIN ══════════════════════════ -->
+    <main class="main-content" id="mainContent">
+
+      <!-- ── Page Header ── -->
+      <header class="page-header">
+        <div class="header-left">
+          <div class="page-icon-badge" aria-hidden="true"><i data-lucide="user"></i></div>
+          <div>
+            <h1 class="page-title">My Profile</h1>
+            <p class="page-sub">Recruiter view · <span class="accent-text">Public profile active</span></p>
+          </div>
+        </div>
+        <div class="header-right">
+          <!-- Profile Completeness -->
+          <div class="completeness-widget glass-panel" id="completenessWidget">
+            <div class="comp-label">Profile Strength</div>
+            <div class="comp-bar-wrap">
+              <div class="comp-bar"><div class="comp-fill" id="compFill" style="width:0%"></div></div>
+            </div>
+            <span class="comp-pct" id="compPct">88%</span>
+          </div>
+          <button class="btn btn-secondary" id="shareProfileBtn">
+            <i data-lucide="share-2"></i> Share
+          </button>
+          <button class="btn btn-primary" id="editProfileBtn">
+            <i data-lucide="edit-3"></i> Edit Profile
+          </button>
+        </div>
+      </header>
+
+      <!-- ════════════════════════════════════════════
+           PROFILE HERO BANNER
+           ════════════════════════════════════════════ -->
+      <section class="profile-hero glass-card" id="profileHero" aria-label="Profile header">
+
+        <!-- Cover gradient bar -->
+        <div class="hero-cover" id="heroCover" aria-hidden="true"></div>
+
+        <div class="hero-body">
+          <!-- Avatar + upload overlay -->
+          <div class="avatar-wrap" id="avatarWrap">
+            <div class="profile-avatar" id="profileAvatar" role="img" aria-label="Arjun Patel profile photo"></div>
+            <button class="avatar-edit-btn" id="avatarEditBtn" aria-label="Change profile photo">
+              <i data-lucide="camera"></i>
+            </button>
+            <input type="file" id="avatarInput" accept="image/*" hidden aria-label="Upload profile photo" />
+          </div>
+
+          <!-- Identity block -->
+          <div class="hero-identity">
+            <div class="hero-name-row">
+              <h2 class="hero-name" id="heroName">Arjun Patel</h2>
+              <span class="open-to-work-badge" id="openToWorkBadge">
+                <span class="otw-dot"></span> Open to Work
+              </span>
+            </div>
+            <p class="hero-headline" id="heroHeadline">Computer Science Junior · University of Texas at Austin</p>
+            <p class="hero-tagline" id="heroTagline">Building full-stack products and seeking Summer 2026 SWE internships</p>
+
+            <!-- Meta chips row -->
+            <div class="hero-meta-row">
+              <span class="meta-chip"><i data-lucide="map-pin"></i><span id="heroLocation">Austin, TX</span></span>
+              <span class="meta-chip"><i data-lucide="graduation-cap"></i><span id="heroMajor">B.S. Computer Science · GPA 3.7</span></span>
+              <span class="meta-chip"><i data-lucide="calendar"></i><span id="heroGrad">Graduating May 2027</span></span>
+              <span class="meta-chip"><i data-lucide="clock"></i><span id="heroAvail">Available Jun 2026</span></span>
+            </div>
+          </div>
+
+          <!-- Hero actions -->
+          <div class="hero-actions">
+            <button class="btn btn-primary" id="heroEditBtn">
+              <i data-lucide="edit-3"></i> Edit
+            </button>
+            <button class="btn btn-secondary btn-icon-only" id="heroShareBtn" aria-label="Copy profile link" title="Share profile">
+              <i data-lucide="link"></i>
+            </button>
+          </div>
+        </div>
+
+        <!-- Social link strip -->
+        <div class="hero-social-strip" id="heroSocialStrip">
+          <a href="#" class="social-link-pill github" id="socialGithub">
+            <i data-lucide="github"></i><span>github.com/arjunpatel</span>
+          </a>
+          <a href="#" class="social-link-pill linkedin" id="socialLinkedin">
+            <i data-lucide="linkedin"></i><span>linkedin.com/in/arjun-patel-dev</span>
+          </a>
+          <a href="#" class="social-link-pill portfolio" id="socialPortfolio">
+            <i data-lucide="globe"></i><span>arjunpatel.dev</span>
+          </a>
+          <a href="#" class="social-link-pill email" id="socialEmail">
+            <i data-lucide="mail"></i><span>arjun@utexas.edu</span>
+          </a>
+        </div>
+
+      </section>
+
+      <!-- ════════════════════════════════════════════
+           PROFILE CONTENT GRID
+           ════════════════════════════════════════════ -->
+      <div class="profile-grid">
+
+        <!-- ══ LEFT COLUMN ══ -->
+        <div class="profile-left">
+
+          <!-- ─── Bio / About ─── -->
+          <section class="glass-card section-card" id="bioCard" aria-labelledby="bioTitle">
+            <div class="section-header">
+              <div class="section-title-group">
+                <span class="section-icon-badge badge-indigo"><i data-lucide="file-text"></i></span>
+                <h3 class="section-title" id="bioTitle">About</h3>
+              </div>
+              <button class="edit-section-btn" data-section="bio" aria-label="Edit bio">
+                <i data-lucide="edit-3"></i>
+              </button>
+            </div>
+            <div class="bio-content" id="bioContent">
+              <p id="bioText">
+                I'm a third-year Computer Science student at UT Austin with a passion for building elegant,
+                high-performance web applications. I have hands-on experience in full-stack development,
+                having interned at TechCorp where I reduced API latency by 40% using Redis caching.
+              </p>
+              <p id="bioText2" style="margin-top:10px;">
+                I'm currently seeking <strong>Summer 2026 SWE internships</strong> at product-focused tech companies.
+                I enjoy open-source contributions, algorithm challenges, and building side projects that solve
+                real problems for university students.
+              </p>
+            </div>
+          </section>
+
+          <!-- ─── Skills ─── -->
+          <section class="glass-card section-card" id="skillsCard" aria-labelledby="skillsTitle">
+            <div class="section-header">
+              <div class="section-title-group">
+                <span class="section-icon-badge badge-cyan"><i data-lucide="code-2"></i></span>
+                <h3 class="section-title" id="skillsTitle">Skills</h3>
+              </div>
+              <button class="edit-section-btn" data-section="skills" aria-label="Edit skills">
+                <i data-lucide="edit-3"></i>
+              </button>
+            </div>
+
+            <!-- Skill category tabs -->
+            <div class="skill-tabs" role="tablist" aria-label="Skill categories">
+              <button class="skill-tab active" data-tab="all"      role="tab" aria-selected="true">All</button>
+              <button class="skill-tab" data-tab="languages"       role="tab">Languages</button>
+              <button class="skill-tab" data-tab="frameworks"      role="tab">Frameworks</button>
+              <button class="skill-tab" data-tab="tools"           role="tab">Tools</button>
+              <button class="skill-tab" data-tab="soft"            role="tab">Soft Skills</button>
+            </div>
+
+            <div class="skills-container" id="skillsContainer">
+              <!-- Injected by JS -->
+            </div>
+
+            <!-- Skill radar chart -->
+            <div class="skill-radar-wrap">
+              <canvas id="skillRadar" aria-label="Skill radar chart"></canvas>
+            </div>
+          </section>
+
+          <!-- ─── Education ─── -->
+          <section class="glass-card section-card" id="educationCard" aria-labelledby="educationTitle">
+            <div class="section-header">
+              <div class="section-title-group">
+                <span class="section-icon-badge badge-violet"><i data-lucide="graduation-cap"></i></span>
+                <h3 class="section-title" id="educationTitle">Education</h3>
+              </div>
+              <button class="edit-section-btn" data-section="education" aria-label="Edit education">
+                <i data-lucide="edit-3"></i>
+              </button>
+            </div>
+            <div class="timeline" id="educationTimeline">
+              <!-- Injected by JS -->
+            </div>
+          </section>
+
+        </div><!-- /profile-left -->
+
+        <!-- ══ RIGHT COLUMN ══ -->
+        <div class="profile-right">
+
+          <!-- ─── Stats Bar ─── -->
+          <div class="stats-row" id="statsRow">
+            <!-- Injected by JS -->
+          </div>
+
+          <!-- ─── Certifications ─── -->
+          <section class="glass-card section-card" id="certsCard" aria-labelledby="certsTitle">
+            <div class="section-header">
+              <div class="section-title-group">
+                <span class="section-icon-badge badge-amber"><i data-lucide="award"></i></span>
+                <h3 class="section-title" id="certsTitle">Certifications</h3>
+              </div>
+              <button class="edit-section-btn" data-section="certifications" aria-label="Edit certifications">
+                <i data-lucide="edit-3"></i>
+              </button>
+            </div>
+            <div class="certs-grid" id="certsGrid">
+              <!-- Injected by JS -->
+            </div>
+          </section>
+
+          <!-- ─── Projects ─── -->
+          <section class="glass-card section-card" id="projectsCard" aria-labelledby="projectsTitle">
+            <div class="section-header">
+              <div class="section-title-group">
+                <span class="section-icon-badge badge-emerald"><i data-lucide="folder-open"></i></span>
+                <h3 class="section-title" id="projectsTitle">Projects</h3>
+              </div>
+              <button class="edit-section-btn" data-section="projects" aria-label="Edit projects">
+                <i data-lucide="edit-3"></i>
+              </button>
+            </div>
+            <div class="projects-grid" id="projectsGrid">
+              <!-- Injected by JS -->
+            </div>
+          </section>
+
+          <!-- ─── Portfolio Links ─── -->
+          <section class="glass-card section-card" id="portfolioCard" aria-labelledby="portfolioTitle">
+            <div class="section-header">
+              <div class="section-title-group">
+                <span class="section-icon-badge badge-rose"><i data-lucide="link-2"></i></span>
+                <h3 class="section-title" id="portfolioTitle">Portfolio &amp; Links</h3>
+              </div>
+              <button class="edit-section-btn" data-section="portfolio" aria-label="Edit portfolio links">
+                <i data-lucide="edit-3"></i>
+              </button>
+            </div>
+            <div class="portfolio-links-grid" id="portfolioLinksGrid">
+              <!-- Injected by JS -->
+            </div>
+          </section>
+
+        </div><!-- /profile-right -->
+      </div><!-- /profile-grid -->
+
+    </main>
+  </div>
+
+  <!-- ════════════════════════════════════════════════════
+       EDIT PROFILE MODAL
+       ════════════════════════════════════════════════════ -->
+  <div class="modal-backdrop" id="modalBackdrop" aria-hidden="true">
+    <div class="edit-modal glass-panel" id="editModal" role="dialog" aria-modal="true" aria-labelledby="editModalTitle">
+
+      <!-- Modal header with tab navigation -->
+      <div class="edit-modal-header">
+        <div class="edit-modal-title-row">
+          <span class="edit-modal-icon"><i data-lucide="edit-3"></i></span>
+          <h2 class="edit-modal-title" id="editModalTitle">Edit Profile</h2>
+        </div>
+        <button class="modal-close-btn" id="modalCloseBtn" aria-label="Close">
+          <i data-lucide="x"></i>
+        </button>
+      </div>
+
+      <!-- Section tabs inside modal -->
+      <div class="edit-tabs" role="tablist" aria-label="Profile sections">
+        <button class="edit-tab active" data-etab="basics"    role="tab" aria-selected="true">
+          <i data-lucide="user"></i><span>Basics</span>
+        </button>
+        <button class="edit-tab" data-etab="bio"              role="tab">
+          <i data-lucide="file-text"></i><span>Bio</span>
+        </button>
+        <button class="edit-tab" data-etab="skills"           role="tab">
+          <i data-lucide="code-2"></i><span>Skills</span>
+        </button>
+        <button class="edit-tab" data-etab="education"        role="tab">
+          <i data-lucide="graduation-cap"></i><span>Education</span>
+        </button>
+        <button class="edit-tab" data-etab="certifications"   role="tab">
+          <i data-lucide="award"></i><span>Certs</span>
+        </button>
+        <button class="edit-tab" data-etab="projects"         role="tab">
+          <i data-lucide="folder-open"></i><span>Projects</span>
+        </button>
+        <button class="edit-tab" data-etab="portfolio"        role="tab">
+          <i data-lucide="link-2"></i><span>Links</span>
+        </button>
+      </div>
+
+      <!-- Edit panels -->
+      <div class="edit-modal-body" id="editModalBody">
+
+        <!-- ── Basics ── -->
+        <div class="edit-panel active" id="epanel-basics">
+          <div class="form-grid">
+            <div class="form-group">
+              <label class="form-label" for="eFullName">Full Name <span class="req">*</span></label>
+              <div class="input-wrap"><i data-lucide="user"></i>
+                <input type="text" id="eFullName" class="form-input" value="Arjun Patel" /></div>
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="eHeadline">Headline</label>
+              <div class="input-wrap"><i data-lucide="type"></i>
+                <input type="text" id="eHeadline" class="form-input" value="Computer Science Junior · University of Texas at Austin" /></div>
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="eTagline">Tagline</label>
+              <div class="input-wrap"><i data-lucide="message-square"></i>
+                <input type="text" id="eTagline" class="form-input" value="Building full-stack products and seeking Summer 2026 SWE internships" /></div>
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="eLocation">Location</label>
+              <div class="input-wrap"><i data-lucide="map-pin"></i>
+                <input type="text" id="eLocation" class="form-input" value="Austin, TX" /></div>
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="eMajor">Major &amp; GPA</label>
+              <div class="input-wrap"><i data-lucide="book-open"></i>
+                <input type="text" id="eMajor" class="form-input" value="B.S. Computer Science · GPA 3.7" /></div>
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="eGrad">Graduation Date</label>
+              <div class="input-wrap"><i data-lucide="calendar"></i>
+                <input type="text" id="eGrad" class="form-input" value="Graduating May 2027" /></div>
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="eAvail">Availability</label>
+              <div class="input-wrap"><i data-lucide="clock"></i>
+                <input type="text" id="eAvail" class="form-input" value="Available Jun 2026" /></div>
+            </div>
+            <div class="form-group form-group-toggle">
+              <label class="form-label">Open to Work</label>
+              <label class="toggle-switch">
+                <input type="checkbox" id="eOpenToWork" checked />
+                <span class="toggle-thumb"></span>
+              </label>
+            </div>
+          </div>
+        </div>
+
+        <!-- ── Bio ── -->
+        <div class="edit-panel" id="epanel-bio">
+          <div class="form-group full">
+            <label class="form-label" for="eBio1">About Paragraph 1</label>
+            <textarea id="eBio1" class="form-textarea" rows="4">I'm a third-year Computer Science student at UT Austin with a passion for building elegant, high-performance web applications. I have hands-on experience in full-stack development, having interned at TechCorp where I reduced API latency by 40% using Redis caching.</textarea>
+          </div>
+          <div class="form-group full">
+            <label class="form-label" for="eBio2">About Paragraph 2</label>
+            <textarea id="eBio2" class="form-textarea" rows="4">I'm currently seeking Summer 2026 SWE internships at product-focused tech companies. I enjoy open-source contributions, algorithm challenges, and building side projects that solve real problems for university students.</textarea>
+          </div>
+          <p class="form-hint"><i data-lucide="info"></i> Keep bio under 250 words for recruiter readability.</p>
+        </div>
+
+        <!-- ── Skills ── -->
+        <div class="edit-panel" id="epanel-skills">
+          <div class="form-group full">
+            <label class="form-label" for="eSkillsInput">Add Skill</label>
+            <div class="skill-add-row">
+              <div class="input-wrap flex-grow"><i data-lucide="plus-circle"></i>
+                <input type="text" id="eSkillsInput" class="form-input" placeholder="e.g. Kubernetes" /></div>
+              <div class="select-wrap-sm glass-panel">
+                <select id="eSkillCategory" aria-label="Skill category">
+                  <option value="languages">Languages</option>
+                  <option value="frameworks">Frameworks</option>
+                  <option value="tools">Tools</option>
+                  <option value="soft">Soft Skills</option>
+                </select>
+                <i data-lucide="chevron-down"></i>
+              </div>
+              <div class="select-wrap-sm glass-panel">
+                <select id="eSkillLevel" aria-label="Skill level">
+                  <option value="expert">Expert</option>
+                  <option value="intermediate" selected>Intermediate</option>
+                  <option value="beginner">Beginner</option>
+                </select>
+                <i data-lucide="chevron-down"></i>
+              </div>
+              <button class="btn btn-primary btn-sm" id="addSkillBtn"><i data-lucide="plus"></i> Add</button>
+            </div>
+          </div>
+          <div class="editable-skills-list" id="editableSkillsList">
+            <!-- Injected by JS -->
+          </div>
+        </div>
+
+        <!-- ── Education ── -->
+        <div class="edit-panel" id="epanel-education">
+          <div id="educationEditList"><!-- Injected by JS --></div>
+          <button class="btn btn-ghost btn-add-entry" id="addEducationBtn">
+            <i data-lucide="plus-circle"></i> Add Education
+          </button>
+        </div>
+
+        <!-- ── Certifications ── -->
+        <div class="edit-panel" id="epanel-certifications">
+          <div id="certEditList"><!-- Injected by JS --></div>
+          <button class="btn btn-ghost btn-add-entry" id="addCertBtn">
+            <i data-lucide="plus-circle"></i> Add Certification
+          </button>
+        </div>
+
+        <!-- ── Projects ── -->
+        <div class="edit-panel" id="epanel-projects">
+          <div id="projectEditList"><!-- Injected by JS --></div>
+          <button class="btn btn-ghost btn-add-entry" id="addProjectBtn">
+            <i data-lucide="plus-circle"></i> Add Project
+          </button>
+        </div>
+
+        <!-- ── Portfolio / Links ── -->
+        <div class="edit-panel" id="epanel-portfolio">
+          <div class="form-grid" id="portfolioEditForm">
+            <div class="form-group full">
+              <label class="form-label" for="eGithub"><i data-lucide="github"></i> GitHub URL</label>
+              <div class="input-wrap"><i data-lucide="github"></i>
+                <input type="url" id="eGithub" class="form-input" value="https://github.com/arjunpatel" /></div>
+            </div>
+            <div class="form-group full">
+              <label class="form-label" for="eLinkedin"><i data-lucide="linkedin"></i> LinkedIn URL</label>
+              <div class="input-wrap"><i data-lucide="linkedin"></i>
+                <input type="url" id="eLinkedin" class="form-input" value="https://linkedin.com/in/arjun-patel-dev" /></div>
+            </div>
+            <div class="form-group full">
+              <label class="form-label" for="ePortfolio"><i data-lucide="globe"></i> Portfolio Website</label>
+              <div class="input-wrap"><i data-lucide="globe"></i>
+                <input type="url" id="ePortfolio" class="form-input" value="https://arjunpatel.dev" /></div>
+            </div>
+            <div class="form-group full">
+              <label class="form-label" for="eEmail"><i data-lucide="mail"></i> Contact Email</label>
+              <div class="input-wrap"><i data-lucide="mail"></i>
+                <input type="email" id="eEmail" class="form-input" value="arjun@utexas.edu" /></div>
+            </div>
+          </div>
+          <p class="form-hint"><i data-lucide="info"></i> These links appear on your public profile and resume.</p>
+        </div>
+
+      </div><!-- /edit-modal-body -->
+
+      <div class="edit-modal-footer">
+        <button class="btn btn-ghost" id="modalCancelBtn">Cancel</button>
+        <button class="btn btn-primary" id="modalSaveBtn">
+          <i data-lucide="check"></i> Save Changes
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── Toast ── -->
+  <div class="toast" id="toast" role="alert" aria-live="assertive">
+    <span class="toast-icon" id="toastIcon"><i data-lucide="check-circle"></i></span>
+    <span id="toastMsg">Saved!</span>
+    <button class="toast-dismiss" id="toastDismiss" aria-label="Dismiss"><i data-lucide="x"></i></button>
+  </div>
+
+  <script src="profile.js"></script>
+</body>
+</html>

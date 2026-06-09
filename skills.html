@@ -1,0 +1,482 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>InternLink — Skill Match</title>
+  <meta name="description" content="Analyze your resume, see your skill match score, identify gaps and get personalized course & internship recommendations.">
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Outfit:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <!-- Chart.js -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+
+  <link rel="stylesheet" href="skills.css">
+</head>
+<body>
+
+  <!-- Ambient Background Blobs -->
+  <div class="glow-blob blob-violet"></div>
+  <div class="glow-blob blob-cyan"></div>
+  <div class="glow-blob blob-emerald"></div>
+
+  <div class="app-layout">
+
+    <!-- ══════════════════════════════════════ SIDEBAR ══ -->
+    <aside class="sidebar glass-panel" id="sidebar">
+      <div class="sidebar-header">
+        <a href="index.html" class="logo">
+          <span class="logo-icon"><i data-lucide="link-2"></i></span>
+          <span class="logo-text">InternLink</span>
+        </a>
+        <button class="sidebar-collapse-btn" id="sidebarCollapseBtn" aria-label="Collapse sidebar">
+          <i data-lucide="panel-left-close"></i>
+        </button>
+      </div>
+
+      <nav class="sidebar-nav" aria-label="Main navigation">
+        <a href="dashboard.html"    class="sidebar-link"><i data-lucide="layout-dashboard"></i><span>Dashboard</span></a>
+        <a href="internships.html"  class="sidebar-link"><i data-lucide="briefcase"></i><span>Internships</span></a>
+        <a href="#"                 class="sidebar-link"><i data-lucide="clipboard-list"></i><span>Applications</span><span class="nav-badge">12</span></a>
+        <a href="#"                 class="sidebar-link"><i data-lucide="file-text"></i><span>Resume</span></a>
+        <a href="skills.html"       class="sidebar-link active"><i data-lucide="zap"></i><span>Skill Match</span></a>
+        <a href="#"                 class="sidebar-link"><i data-lucide="user"></i><span>Profile</span></a>
+        <a href="#"                 class="sidebar-link"><i data-lucide="settings"></i><span>Settings</span></a>
+      </nav>
+
+      <div class="sidebar-footer">
+        <div class="user-widget">
+          <div class="user-avatar" aria-hidden="true"></div>
+          <div class="user-info">
+            <p class="user-name">Arjun Patel</p>
+            <p class="user-sub">CS Junior · UT Austin</p>
+          </div>
+          <button class="logout-btn" aria-label="Log out"><i data-lucide="log-out"></i></button>
+        </div>
+      </div>
+    </aside>
+
+    <!-- ══════════════════════════════════════ MAIN ═════ -->
+    <main class="main-content" id="mainContent">
+
+      <!-- ─── Page Header ─── -->
+      <header class="page-header">
+        <div class="header-left">
+          <div class="page-title-group">
+            <span class="page-icon-badge"><i data-lucide="zap"></i></span>
+            <div>
+              <h1 class="page-title">Skill Match Analysis</h1>
+              <p class="page-sub">Last analyzed: <span class="highlight-text">Today, 10:32 AM</span> · Resume: <span class="highlight-text">Arjun_Resume_v3.pdf</span></p>
+            </div>
+          </div>
+        </div>
+        <div class="header-actions">
+          <div class="target-role-selector glass-panel">
+            <i data-lucide="target"></i>
+            <select id="targetRoleSelect" aria-label="Target role">
+              <option value="swe">Software Engineer Intern</option>
+              <option value="ds">Data Science Intern</option>
+              <option value="pm">Product Manager Intern</option>
+              <option value="ux">UX Design Intern</option>
+              <option value="devops">DevOps / Cloud Intern</option>
+            </select>
+            <i data-lucide="chevron-down" class="select-chevron"></i>
+          </div>
+          <button class="btn btn-primary" id="reAnalyzeBtn">
+            <i data-lucide="refresh-cw"></i>
+            Re-analyze
+          </button>
+          <button class="btn btn-secondary" id="uploadResumeBtn">
+            <i data-lucide="upload-cloud"></i>
+            Upload Resume
+          </button>
+        </div>
+      </header>
+
+      <!-- ─── Upload Banner (shown when no resume) ─── -->
+      <div class="upload-banner glass-card" id="uploadBanner" hidden>
+        <div class="upload-zone" id="uploadZone">
+          <div class="upload-icon"><i data-lucide="file-up"></i></div>
+          <p class="upload-title">Drop your resume to get started</p>
+          <p class="upload-sub">PDF or DOCX · Max 5MB · Analysis takes ~10 seconds</p>
+          <label class="btn btn-primary upload-label">
+            <i data-lucide="upload"></i> Browse File
+            <input type="file" accept=".pdf,.docx" id="resumeFileInput" hidden>
+          </label>
+        </div>
+      </div>
+
+      <!-- ─── Analyzing Loader (shown during analysis) ─── -->
+      <div class="analyzing-overlay" id="analyzingOverlay" hidden>
+        <div class="analyzing-card glass-card">
+          <div class="scanning-ring">
+            <svg viewBox="0 0 120 120" class="scan-svg" aria-hidden="true">
+              <circle cx="60" cy="60" r="54" class="scan-track"/>
+              <circle cx="60" cy="60" r="54" class="scan-progress"/>
+            </svg>
+            <div class="scan-inner">
+              <i data-lucide="file-search"></i>
+            </div>
+          </div>
+          <p class="analyzing-title">Analyzing your resume…</p>
+          <p class="analyzing-sub">Extracting skills, experience, and matching against <span id="analyzeRoleLabel">Software Engineer Intern</span></p>
+          <div class="progress-steps" id="progressSteps">
+            <div class="prog-step active"><i data-lucide="check-circle"></i> Reading document</div>
+            <div class="prog-step"><i data-lucide="loader"></i> Extracting skills</div>
+            <div class="prog-step"><i data-lucide="loader"></i> Running match analysis</div>
+            <div class="prog-step"><i data-lucide="loader"></i> Generating recommendations</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ════════════════════════════════════════════════
+           DASHBOARD CONTENT (shown after analysis)
+           ════════════════════════════════════════════════ -->
+      <div class="skill-dashboard" id="skillDashboard">
+
+        <!-- ── ROW 1: Match Score + Radar + Stats ── -->
+        <div class="row-hero">
+
+          <!-- CARD: Circular Match Score -->
+          <div class="glass-card card-match-score">
+            <div class="card-header-row">
+              <h2 class="card-title">Overall Match Score</h2>
+              <div class="role-pill" id="currentRolePill">Software Engineer Intern</div>
+            </div>
+
+            <!-- Circular Progress Ring -->
+            <div class="score-ring-wrapper">
+              <div class="score-ring-outer">
+                <svg class="score-svg" viewBox="0 0 200 200" aria-label="Match score 87 percent">
+                  <!-- Background track -->
+                  <circle class="ring-track" cx="100" cy="100" r="82"/>
+                  <!-- Colored arc — animated via JS -->
+                  <circle class="ring-fill" id="ringFill" cx="100" cy="100" r="82"/>
+                  <!-- Gradient definition -->
+                  <defs>
+                    <linearGradient id="scoreGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                      <stop offset="0%"   stop-color="#4F46E5"/>
+                      <stop offset="50%"  stop-color="#06B6D4"/>
+                      <stop offset="100%" stop-color="#10B981"/>
+                    </linearGradient>
+                  </defs>
+                </svg>
+                <!-- Center Content -->
+                <div class="ring-center">
+                  <span class="ring-score" id="ringScore">0</span>
+                  <span class="ring-label">Match</span>
+                  <div class="ring-grade" id="ringGrade">
+                    <i data-lucide="trending-up"></i>
+                    <span>Strong</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Score breakdown mini stats -->
+            <div class="score-mini-stats">
+              <div class="mini-stat">
+                <span class="mini-val text-emerald" id="miniMatched">18</span>
+                <span class="mini-label">Skills Matched</span>
+              </div>
+              <div class="mini-stat-divider"></div>
+              <div class="mini-stat">
+                <span class="mini-val text-amber" id="miniMissing">4</span>
+                <span class="mini-label">Skills Missing</span>
+              </div>
+              <div class="mini-stat-divider"></div>
+              <div class="mini-stat">
+                <span class="mini-val text-cyan" id="miniTotal">22</span>
+                <span class="mini-label">Total Required</span>
+              </div>
+            </div>
+
+            <!-- Score history sparkline labels -->
+            <div class="score-history">
+              <p class="score-history-label">Score history (last 4 analyses)</p>
+              <div class="sparkline-row">
+                <div class="spark-bar" style="--h:55%" data-score="67"><span>67%</span></div>
+                <div class="spark-bar" style="--h:66%" data-score="73"><span>73%</span></div>
+                <div class="spark-bar" style="--h:75%" data-score="80"><span>80%</span></div>
+                <div class="spark-bar active" style="--h:87%" data-score="87"><span>87%</span></div>
+              </div>
+            </div>
+          </div>
+
+          <!-- CARD: Radar / Spider Chart -->
+          <div class="glass-card card-radar">
+            <div class="card-header-row">
+              <h2 class="card-title">Skills Breakdown</h2>
+              <div class="legend-row">
+                <span class="legend-dot dot-primary"></span><span class="legend-label">Your Profile</span>
+                <span class="legend-dot dot-secondary"></span><span class="legend-label">Role Required</span>
+              </div>
+            </div>
+            <div class="chart-container radar-container">
+              <canvas id="radarChart" aria-label="Radar chart comparing your skills to role requirements"></canvas>
+            </div>
+          </div>
+
+          <!-- CARD: Quick Stat Column -->
+          <div class="card-quick-stats">
+            <div class="glass-card qstat-card">
+              <div class="qstat-icon icon-indigo"><i data-lucide="zap"></i></div>
+              <div class="qstat-body">
+                <span class="qstat-val">87<span class="qstat-unit">%</span></span>
+                <span class="qstat-label">Match Score</span>
+              </div>
+              <div class="qstat-trend trend-up"><i data-lucide="trending-up"></i> +7%</div>
+            </div>
+            <div class="glass-card qstat-card">
+              <div class="qstat-icon icon-emerald"><i data-lucide="check-circle-2"></i></div>
+              <div class="qstat-body">
+                <span class="qstat-val">18</span>
+                <span class="qstat-label">Skills Matched</span>
+              </div>
+              <div class="qstat-trend trend-up"><i data-lucide="trending-up"></i> +3 skills</div>
+            </div>
+            <div class="glass-card qstat-card">
+              <div class="qstat-icon icon-amber"><i data-lucide="alert-triangle"></i></div>
+              <div class="qstat-body">
+                <span class="qstat-val">4</span>
+                <span class="qstat-label">Gaps Found</span>
+              </div>
+              <div class="qstat-trend trend-down"><i data-lucide="trending-down"></i> −2 gaps</div>
+            </div>
+            <div class="glass-card qstat-card">
+              <div class="qstat-icon icon-cyan"><i data-lucide="book-open"></i></div>
+              <div class="qstat-body">
+                <span class="qstat-val">6</span>
+                <span class="qstat-label">Courses Ready</span>
+              </div>
+              <div class="qstat-trend trend-new"><i data-lucide="sparkles"></i> Curated</div>
+            </div>
+          </div>
+
+        </div><!-- /row-hero -->
+
+        <!-- ── ROW 2: Resume Analysis Panel ── -->
+        <div class="glass-card card-resume-analysis">
+          <div class="card-header-row">
+            <h2 class="card-title"><i data-lucide="file-search"></i> Resume Analysis</h2>
+            <div class="header-actions-sm">
+              <div class="ats-badge">
+                <i data-lucide="shield-check"></i>
+                ATS Score: <strong>91/100</strong>
+              </div>
+              <button class="btn-ghost-sm" id="downloadReportBtn">
+                <i data-lucide="download"></i> Download Report
+              </button>
+            </div>
+          </div>
+
+          <div class="resume-analysis-grid">
+
+            <!-- Left: Resume preview -->
+            <div class="resume-preview-panel">
+              <div class="resume-mockup glass-inner">
+                <div class="resume-header-mock">
+                  <div class="resume-avatar-mock"></div>
+                  <div class="resume-name-block">
+                    <div class="mock-line w-60"></div>
+                    <div class="mock-line w-40 small"></div>
+                    <div class="mock-line w-50 small"></div>
+                  </div>
+                </div>
+                <div class="resume-section-mock">
+                  <div class="mock-section-title"></div>
+                  <div class="mock-line w-100"></div>
+                  <div class="mock-line w-90"></div>
+                  <div class="mock-line w-75"></div>
+                  <!-- Highlighted keywords -->
+                  <div class="mock-highlight-row">
+                    <span class="kw-highlight kw-match">Python</span>
+                    <span class="kw-highlight kw-match">React</span>
+                    <span class="kw-highlight kw-partial">SQL</span>
+                    <span class="kw-highlight kw-missing">Kubernetes</span>
+                  </div>
+                </div>
+                <div class="resume-section-mock">
+                  <div class="mock-section-title"></div>
+                  <div class="mock-line w-100"></div>
+                  <div class="mock-line w-85"></div>
+                  <div class="mock-highlight-row">
+                    <span class="kw-highlight kw-match">TypeScript</span>
+                    <span class="kw-highlight kw-match">Node.js</span>
+                    <span class="kw-highlight kw-missing">Docker</span>
+                  </div>
+                </div>
+                <div class="resume-section-mock">
+                  <div class="mock-section-title"></div>
+                  <div class="mock-line w-70"></div>
+                  <div class="mock-line w-80"></div>
+                </div>
+                <!-- Legend -->
+                <div class="resume-legend">
+                  <span class="legend-item"><span class="kw-dot dot-match"></span>Matched</span>
+                  <span class="legend-item"><span class="kw-dot dot-partial"></span>Partial</span>
+                  <span class="legend-item"><span class="kw-dot dot-missing"></span>Missing</span>
+                </div>
+              </div>
+              <p class="resume-filename"><i data-lucide="file-text"></i> Arjun_Resume_v3.pdf</p>
+            </div>
+
+            <!-- Right: Extracted data -->
+            <div class="resume-data-panel">
+
+              <!-- Extracted stats row -->
+              <div class="extracted-stats">
+                <div class="extracted-stat">
+                  <span class="ex-icon"><i data-lucide="graduation-cap"></i></span>
+                  <div><span class="ex-val">Junior</span><span class="ex-key">Year</span></div>
+                </div>
+                <div class="extracted-stat">
+                  <span class="ex-icon"><i data-lucide="briefcase"></i></span>
+                  <div><span class="ex-val">1 yr</span><span class="ex-key">Experience</span></div>
+                </div>
+                <div class="extracted-stat">
+                  <span class="ex-icon"><i data-lucide="code-2"></i></span>
+                  <div><span class="ex-val">22</span><span class="ex-key">Skills Found</span></div>
+                </div>
+                <div class="extracted-stat">
+                  <span class="ex-icon"><i data-lucide="folder-open"></i></span>
+                  <div><span class="ex-val">4</span><span class="ex-key">Projects</span></div>
+                </div>
+              </div>
+
+              <!-- Horizontal bar chart: skill categories -->
+              <div class="category-bars">
+                <h3 class="panel-subtitle">Skill Category Coverage</h3>
+                <div class="bar-chart-container">
+                  <canvas id="categoryChart" aria-label="Horizontal bar chart of skill category coverage"></canvas>
+                </div>
+              </div>
+
+              <!-- ATS keyword density -->
+              <div class="ats-analysis">
+                <h3 class="panel-subtitle">Keyword Density vs. Target Role</h3>
+                <div class="keyword-density-list" id="keywordDensityList">
+                  <!-- Injected by JS -->
+                </div>
+              </div>
+
+            </div>
+          </div>
+        </div>
+
+        <!-- ── ROW 3: Matching + Missing Skills ── -->
+        <div class="row-skills-split">
+
+          <!-- Matching Skills -->
+          <div class="glass-card card-skills-matched">
+            <div class="card-header-row">
+              <h2 class="card-title">
+                <span class="title-dot dot-emerald"></span>
+                Matching Skills
+                <span class="count-chip chip-emerald" id="matchedCount">18</span>
+              </h2>
+              <button class="btn-ghost-sm" id="toggleMatchedAll">Show all</button>
+            </div>
+            <div class="skills-grid" id="matchedSkillsGrid">
+              <!-- Injected by JS -->
+            </div>
+          </div>
+
+          <!-- Missing Skills -->
+          <div class="glass-card card-skills-missing">
+            <div class="card-header-row">
+              <h2 class="card-title">
+                <span class="title-dot dot-amber"></span>
+                Skills to Develop
+                <span class="count-chip chip-amber" id="missingCount">4</span>
+              </h2>
+              <button class="btn-ghost-sm">Prioritized by impact</button>
+            </div>
+            <div class="missing-skills-list" id="missingSkillsList">
+              <!-- Injected by JS -->
+            </div>
+          </div>
+
+        </div>
+
+        <!-- ── ROW 4: Improvement Suggestions ── -->
+        <div class="glass-card card-suggestions">
+          <div class="card-header-row">
+            <h2 class="card-title"><i data-lucide="lightbulb"></i> Improvement Suggestions</h2>
+            <span class="suggestions-badge"><i data-lucide="sparkles"></i> AI-Powered</span>
+          </div>
+          <div class="suggestions-grid" id="suggestionsGrid">
+            <!-- Injected by JS -->
+          </div>
+        </div>
+
+        <!-- ── ROW 5: Recommended Courses ── -->
+        <div class="glass-card card-courses">
+          <div class="card-header-row">
+            <h2 class="card-title"><i data-lucide="book-open"></i> Recommended Courses</h2>
+            <div class="header-actions-sm">
+              <div class="course-filter-tabs" role="tablist" aria-label="Course filters">
+                <button class="tab-btn active" data-tab="all" role="tab" aria-selected="true">All</button>
+                <button class="tab-btn" data-tab="free" role="tab">Free</button>
+                <button class="tab-btn" data-tab="quick" role="tab">Quick (&lt;5h)</button>
+                <button class="tab-btn" data-tab="cert" role="tab">Certificate</button>
+              </div>
+            </div>
+          </div>
+          <div class="courses-grid" id="coursesGrid">
+            <!-- Injected by JS -->
+          </div>
+        </div>
+
+        <!-- ── ROW 6: Recommended Internships ── -->
+        <div class="glass-card card-internships">
+          <div class="card-header-row">
+            <h2 class="card-title"><i data-lucide="briefcase"></i> Recommended Internships</h2>
+            <a href="internships.html" class="btn-link">
+              View all <i data-lucide="arrow-right"></i>
+            </a>
+          </div>
+          <div class="internships-reco-grid" id="internshipsRecoGrid">
+            <!-- Injected by JS -->
+          </div>
+        </div>
+
+        <!-- ── ROW 7: Improvement Roadmap Timeline ── -->
+        <div class="glass-card card-roadmap">
+          <div class="card-header-row">
+            <h2 class="card-title"><i data-lucide="map"></i> Skill Improvement Roadmap</h2>
+            <span class="roadmap-eta"><i data-lucide="clock"></i> Est. 6 weeks to close all gaps</span>
+          </div>
+          <div class="roadmap-timeline" id="roadmapTimeline">
+            <!-- Injected by JS -->
+          </div>
+        </div>
+
+      </div><!-- /skill-dashboard -->
+
+    </main><!-- /main-content -->
+  </div><!-- /app-layout -->
+
+  <!-- ── Re-analyze Animation Overlay ── -->
+  <div class="reanalyze-overlay" id="reanalyzeOverlay" hidden>
+    <div class="reanalyze-spinner">
+      <svg viewBox="0 0 100 100" class="spinner-svg"><circle cx="50" cy="50" r="40" class="spinner-ring"/></svg>
+      <p>Re-analyzing…</p>
+    </div>
+  </div>
+
+  <!-- ── Toast ── -->
+  <div class="toast" id="toast" role="alert" aria-live="polite">
+    <div class="toast-icon"><i data-lucide="check-circle"></i></div>
+    <span id="toastMsg">Done!</span>
+  </div>
+
+  <script src="skills.js"></script>
+</body>
+</html>

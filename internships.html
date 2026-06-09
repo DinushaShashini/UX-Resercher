@@ -1,0 +1,525 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>InternLink — Internship Search</title>
+  <meta name="description" content="Search and filter thousands of verified internship listings matched to your skills and profile.">
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Outfit:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+
+  <!-- Internship Search Styles -->
+  <link rel="stylesheet" href="internships.css">
+</head>
+<body>
+
+  <!-- Background Glow Blobs -->
+  <div class="glow-blob blob-1"></div>
+  <div class="glow-blob blob-2"></div>
+
+  <div class="app-layout">
+
+    <!-- ═══════════════════════════════════════ SIDEBAR ═══ -->
+    <aside class="sidebar glass-panel">
+      <div class="sidebar-header">
+        <a href="index.html" class="logo">
+          <span class="logo-icon"><i data-lucide="link-2"></i></span>
+          <span class="logo-text">InternLink</span>
+        </a>
+      </div>
+
+      <nav class="sidebar-nav">
+        <a href="dashboard.html" class="sidebar-link">
+          <i data-lucide="layout-dashboard"></i>
+          <span>Dashboard</span>
+        </a>
+        <a href="internships.html" class="sidebar-link active">
+          <i data-lucide="briefcase"></i>
+          <span>Internships</span>
+        </a>
+        <a href="#" class="sidebar-link">
+          <i data-lucide="clipboard-list"></i>
+          <span>Applications</span>
+          <span class="nav-badge">12</span>
+        </a>
+        <a href="#" class="sidebar-link">
+          <i data-lucide="file-text"></i>
+          <span>Resume</span>
+        </a>
+        <a href="#" class="sidebar-link">
+          <i data-lucide="zap"></i>
+          <span>Skill Match</span>
+        </a>
+        <a href="#" class="sidebar-link">
+          <i data-lucide="user"></i>
+          <span>Profile</span>
+        </a>
+        <a href="#" class="sidebar-link">
+          <i data-lucide="settings"></i>
+          <span>Settings</span>
+        </a>
+      </nav>
+
+      <div class="sidebar-footer">
+        <div class="user-profile-widget">
+          <div class="user-avatar"></div>
+          <div class="user-info">
+            <h4 class="user-name">Arjun Patel</h4>
+            <p class="user-sub">CS Junior · UT Austin</p>
+          </div>
+          <button class="logout-btn" aria-label="Log out">
+            <i data-lucide="log-out"></i>
+          </button>
+        </div>
+      </div>
+    </aside>
+
+    <!-- ═══════════════════════════════════════ MAIN ═══════ -->
+    <main class="main-content">
+
+      <!-- ── Top Header ── -->
+      <header class="page-header">
+        <div class="header-left">
+          <h1 class="page-title">Internship Search</h1>
+          <p class="page-sub">Showing <span id="resultCount">248</span> roles matched to your profile</p>
+        </div>
+        <div class="header-right">
+          <!-- Global search bar in header -->
+          <div class="header-search glass-panel">
+            <i data-lucide="search"></i>
+            <input
+              type="text"
+              id="globalSearchInput"
+              placeholder="Search roles, companies, or skills…"
+              aria-label="Search internships"
+              autocomplete="off"
+            >
+            <kbd class="search-shortcut">⌘K</kbd>
+          </div>
+          <!-- Notification + Saved -->
+          <button class="icon-btn glass-panel" id="savedBtn" aria-label="Saved internships">
+            <i data-lucide="bookmark"></i>
+            <span class="icon-btn-badge">4</span>
+          </button>
+          <button class="icon-btn glass-panel" id="notifBtn" aria-label="Notifications">
+            <i data-lucide="bell"></i>
+            <span class="icon-btn-badge pulse"></span>
+          </button>
+        </div>
+      </header>
+
+      <!-- ── Hero Search Bar ── -->
+      <section class="hero-search-section">
+        <div class="hero-search-bar glass-panel">
+          <div class="hero-search-field">
+            <i data-lucide="search" class="field-icon"></i>
+            <input
+              type="text"
+              id="heroSearchInput"
+              placeholder="Job title, keywords, or company"
+              aria-label="Search by title or company"
+            >
+          </div>
+          <div class="hero-search-divider"></div>
+          <div class="hero-search-field">
+            <i data-lucide="map-pin" class="field-icon"></i>
+            <input
+              type="text"
+              id="locationSearchInput"
+              placeholder="City, state, or Remote"
+              aria-label="Search by location"
+            >
+          </div>
+          <button class="btn btn-primary hero-search-btn" id="heroSearchBtn">
+            <i data-lucide="search"></i>
+            Search
+          </button>
+        </div>
+
+        <!-- Quick Filter Pills -->
+        <div class="quick-filters" role="group" aria-label="Quick filters">
+          <span class="quick-filter-label">Popular:</span>
+          <button class="pill pill-active" data-filter="remote">🌐 Remote</button>
+          <button class="pill" data-filter="no-exp">🎓 No Experience</button>
+          <button class="pill" data-filter="paid">💰 Paid Only</button>
+          <button class="pill" data-filter="visa">✈️ Visa Friendly</button>
+          <button class="pill" data-filter="summer">☀️ Summer 2026</button>
+          <button class="pill" data-filter="new">🆕 Posted Today</button>
+        </div>
+      </section>
+
+      <!-- ── Content Body: Filters + Results ── -->
+      <div class="search-body">
+
+        <!-- ── LEFT: Filter Panel ── -->
+        <aside class="filter-panel glass-panel" id="filterPanel" aria-label="Search filters">
+
+          <div class="filter-panel-header">
+            <h2 class="filter-title"><i data-lucide="sliders-horizontal"></i> Filters</h2>
+            <button class="clear-all-btn" id="clearAllFilters">Clear all</button>
+          </div>
+
+          <!-- Active filter tags -->
+          <div class="active-filters" id="activeFilters" aria-live="polite">
+            <!-- populated by JS -->
+          </div>
+
+          <!-- ── Filter: Technology / Field ── -->
+          <div class="filter-group" id="fg-tech">
+            <button class="filter-group-toggle" aria-expanded="true" aria-controls="fc-tech">
+              <span><i data-lucide="cpu"></i> Technology / Field</span>
+              <i data-lucide="chevron-down" class="toggle-icon"></i>
+            </button>
+            <div class="filter-group-content" id="fc-tech">
+              <div class="filter-search-mini">
+                <i data-lucide="search"></i>
+                <input type="text" placeholder="Search fields…" aria-label="Search technology fields">
+              </div>
+              <div class="checkbox-list">
+                <label class="checkbox-item">
+                  <input type="checkbox" value="software-engineering" name="tech"> Software Engineering
+                  <span class="count-badge">84</span>
+                </label>
+                <label class="checkbox-item">
+                  <input type="checkbox" value="data-science" name="tech"> Data Science &amp; ML
+                  <span class="count-badge">52</span>
+                </label>
+                <label class="checkbox-item">
+                  <input type="checkbox" value="product-design" name="tech"> Product Design / UX
+                  <span class="count-badge">31</span>
+                </label>
+                <label class="checkbox-item">
+                  <input type="checkbox" value="product-management" name="tech"> Product Management
+                  <span class="count-badge">28</span>
+                </label>
+                <label class="checkbox-item">
+                  <input type="checkbox" value="marketing" name="tech"> Marketing &amp; Growth
+                  <span class="count-badge">22</span>
+                </label>
+                <label class="checkbox-item">
+                  <input type="checkbox" value="finance" name="tech"> Finance &amp; Accounting
+                  <span class="count-badge">18</span>
+                </label>
+                <label class="checkbox-item">
+                  <input type="checkbox" value="cybersecurity" name="tech"> Cybersecurity
+                  <span class="count-badge">13</span>
+                </label>
+                <label class="checkbox-item">
+                  <input type="checkbox" value="devops" name="tech"> DevOps / Cloud
+                  <span class="count-badge">11</span>
+                </label>
+              </div>
+            </div>
+          </div>
+
+          <!-- ── Filter: Location ── -->
+          <div class="filter-group" id="fg-location">
+            <button class="filter-group-toggle" aria-expanded="true" aria-controls="fc-location">
+              <span><i data-lucide="map-pin"></i> Location</span>
+              <i data-lucide="chevron-down" class="toggle-icon"></i>
+            </button>
+            <div class="filter-group-content" id="fc-location">
+              <div class="filter-search-mini">
+                <i data-lucide="search"></i>
+                <input type="text" placeholder="Search cities…" aria-label="Search cities">
+              </div>
+              <div class="checkbox-list">
+                <label class="checkbox-item">
+                  <input type="checkbox" value="san-francisco" name="location"> San Francisco, CA
+                  <span class="count-badge">61</span>
+                </label>
+                <label class="checkbox-item">
+                  <input type="checkbox" value="new-york" name="location"> New York, NY
+                  <span class="count-badge">54</span>
+                </label>
+                <label class="checkbox-item">
+                  <input type="checkbox" value="seattle" name="location"> Seattle, WA
+                  <span class="count-badge">47</span>
+                </label>
+                <label class="checkbox-item">
+                  <input type="checkbox" value="austin" name="location"> Austin, TX
+                  <span class="count-badge">32</span>
+                </label>
+                <label class="checkbox-item">
+                  <input type="checkbox" value="boston" name="location"> Boston, MA
+                  <span class="count-badge">29</span>
+                </label>
+                <label class="checkbox-item">
+                  <input type="checkbox" value="chicago" name="location"> Chicago, IL
+                  <span class="count-badge">21</span>
+                </label>
+              </div>
+            </div>
+          </div>
+
+          <!-- ── Filter: Work Type (Remote) ── -->
+          <div class="filter-group" id="fg-worktype">
+            <button class="filter-group-toggle" aria-expanded="true" aria-controls="fc-worktype">
+              <span><i data-lucide="wifi"></i> Work Type</span>
+              <i data-lucide="chevron-down" class="toggle-icon"></i>
+            </button>
+            <div class="filter-group-content" id="fc-worktype">
+              <div class="radio-card-list">
+                <label class="radio-card">
+                  <input type="radio" name="worktype" value="any" checked> Any
+                </label>
+                <label class="radio-card">
+                  <input type="radio" name="worktype" value="remote">
+                  <i data-lucide="globe"></i> Remote
+                </label>
+                <label class="radio-card">
+                  <input type="radio" name="worktype" value="hybrid">
+                  <i data-lucide="building-2"></i> Hybrid
+                </label>
+                <label class="radio-card">
+                  <input type="radio" name="worktype" value="onsite">
+                  <i data-lucide="map-pin"></i> On-site
+                </label>
+              </div>
+            </div>
+          </div>
+
+          <!-- ── Filter: Company ── -->
+          <div class="filter-group" id="fg-company">
+            <button class="filter-group-toggle" aria-expanded="false" aria-controls="fc-company">
+              <span><i data-lucide="building"></i> Company</span>
+              <i data-lucide="chevron-down" class="toggle-icon"></i>
+            </button>
+            <div class="filter-group-content collapsed" id="fc-company">
+              <div class="filter-search-mini">
+                <i data-lucide="search"></i>
+                <input type="text" placeholder="Search companies…" aria-label="Search companies">
+              </div>
+              <div class="checkbox-list">
+                <label class="checkbox-item">
+                  <input type="checkbox" value="google" name="company"> Google
+                  <span class="count-badge">14</span>
+                </label>
+                <label class="checkbox-item">
+                  <input type="checkbox" value="meta" name="company"> Meta
+                  <span class="count-badge">11</span>
+                </label>
+                <label class="checkbox-item">
+                  <input type="checkbox" value="microsoft" name="company"> Microsoft
+                  <span class="count-badge">16</span>
+                </label>
+                <label class="checkbox-item">
+                  <input type="checkbox" value="stripe" name="company"> Stripe
+                  <span class="count-badge">8</span>
+                </label>
+                <label class="checkbox-item">
+                  <input type="checkbox" value="amazon" name="company"> Amazon
+                  <span class="count-badge">19</span>
+                </label>
+                <label class="checkbox-item">
+                  <input type="checkbox" value="apple" name="company"> Apple
+                  <span class="count-badge">10</span>
+                </label>
+                <label class="checkbox-item">
+                  <input type="checkbox" value="netflix" name="company"> Netflix
+                  <span class="count-badge">6</span>
+                </label>
+                <label class="checkbox-item">
+                  <input type="checkbox" value="salesforce" name="company"> Salesforce
+                  <span class="count-badge">9</span>
+                </label>
+              </div>
+            </div>
+          </div>
+
+          <!-- ── Filter: Salary ── -->
+          <div class="filter-group" id="fg-salary">
+            <button class="filter-group-toggle" aria-expanded="false" aria-controls="fc-salary">
+              <span><i data-lucide="dollar-sign"></i> Salary / Stipend</span>
+              <i data-lucide="chevron-down" class="toggle-icon"></i>
+            </button>
+            <div class="filter-group-content collapsed" id="fc-salary">
+              <div class="salary-toggle-row">
+                <label class="toggle-switch">
+                  <input type="checkbox" id="paidOnlyToggle">
+                  <span class="toggle-thumb"></span>
+                </label>
+                <span class="toggle-label">Paid internships only</span>
+              </div>
+              <p class="filter-label-sm">Monthly stipend range</p>
+              <div class="range-slider-wrapper">
+                <input
+                  type="range"
+                  id="salaryMin"
+                  min="0"
+                  max="10000"
+                  value="1000"
+                  step="500"
+                  aria-label="Minimum salary"
+                >
+                <input
+                  type="range"
+                  id="salaryMax"
+                  min="0"
+                  max="10000"
+                  value="8000"
+                  step="500"
+                  aria-label="Maximum salary"
+                >
+                <div class="range-labels">
+                  <span id="salaryMinLabel">$1,000</span>
+                  <span id="salaryMaxLabel">$8,000</span>
+                </div>
+              </div>
+              <div class="checkbox-list mt-8">
+                <label class="checkbox-item">
+                  <input type="checkbox" value="unpaid-ok" name="salary"> Include unpaid / academic credit
+                </label>
+                <label class="checkbox-item">
+                  <input type="checkbox" value="housing" name="salary"> Housing stipend provided
+                </label>
+              </div>
+            </div>
+          </div>
+
+          <!-- ── Filter: Experience Level ── -->
+          <div class="filter-group" id="fg-exp">
+            <button class="filter-group-toggle" aria-expanded="false" aria-controls="fc-exp">
+              <span><i data-lucide="graduation-cap"></i> Experience Level</span>
+              <i data-lucide="chevron-down" class="toggle-icon"></i>
+            </button>
+            <div class="filter-group-content collapsed" id="fc-exp">
+              <div class="checkbox-list">
+                <label class="checkbox-item">
+                  <input type="checkbox" value="no-exp" name="exp" checked> No Experience Required
+                  <span class="count-badge">92</span>
+                </label>
+                <label class="checkbox-item">
+                  <input type="checkbox" value="1yr" name="exp"> 1 Year / Coursework
+                  <span class="count-badge">68</span>
+                </label>
+                <label class="checkbox-item">
+                  <input type="checkbox" value="2yr" name="exp"> 2+ Years
+                  <span class="count-badge">24</span>
+                </label>
+              </div>
+            </div>
+          </div>
+
+          <!-- ── Filter: Duration ── -->
+          <div class="filter-group" id="fg-duration">
+            <button class="filter-group-toggle" aria-expanded="false" aria-controls="fc-duration">
+              <span><i data-lucide="calendar-days"></i> Duration</span>
+              <i data-lucide="chevron-down" class="toggle-icon"></i>
+            </button>
+            <div class="filter-group-content collapsed" id="fc-duration">
+              <div class="checkbox-list">
+                <label class="checkbox-item">
+                  <input type="checkbox" value="summer" name="duration"> Summer (10–12 weeks)
+                  <span class="count-badge">112</span>
+                </label>
+                <label class="checkbox-item">
+                  <input type="checkbox" value="semester" name="duration"> Semester (16–20 weeks)
+                  <span class="count-badge">56</span>
+                </label>
+                <label class="checkbox-item">
+                  <input type="checkbox" value="yearround" name="duration"> Year-round / Rolling
+                  <span class="count-badge">38</span>
+                </label>
+                <label class="checkbox-item">
+                  <input type="checkbox" value="parttime" name="duration"> Part-time (&lt;20 hrs/wk)
+                  <span class="count-badge">42</span>
+                </label>
+              </div>
+            </div>
+          </div>
+
+        </aside>
+
+        <!-- ── RIGHT: Results Column ── -->
+        <div class="results-column">
+
+          <!-- Sort + View Toggle Bar -->
+          <div class="results-toolbar">
+            <div class="results-toolbar-left">
+              <span class="results-label">
+                <strong id="resultsShowing">1–12</strong> of <strong id="totalResults">248</strong> internships
+              </span>
+            </div>
+            <div class="results-toolbar-right">
+              <!-- Sort Dropdown -->
+              <div class="sort-wrapper">
+                <label for="sortSelect" class="sort-label">Sort by:</label>
+                <div class="select-wrapper glass-panel">
+                  <select id="sortSelect" aria-label="Sort results">
+                    <option value="relevance">Best Match</option>
+                    <option value="recent">Date Posted</option>
+                    <option value="deadline">Deadline</option>
+                    <option value="salary-high">Salary: High → Low</option>
+                    <option value="salary-low">Salary: Low → High</option>
+                    <option value="match-score">Match Score</option>
+                  </select>
+                  <i data-lucide="chevron-down" class="select-icon"></i>
+                </div>
+              </div>
+              <!-- View Toggle -->
+              <div class="view-toggle glass-panel" role="group" aria-label="View toggle">
+                <button class="view-btn active" id="gridViewBtn" aria-label="Grid view" title="Grid view">
+                  <i data-lucide="layout-grid"></i>
+                </button>
+                <button class="view-btn" id="listViewBtn" aria-label="List view" title="List view">
+                  <i data-lucide="layout-list"></i>
+                </button>
+              </div>
+              <!-- Mobile filter toggle -->
+              <button class="mobile-filter-toggle btn btn-secondary" id="mobileFilterBtn">
+                <i data-lucide="sliders-horizontal"></i> Filters
+              </button>
+            </div>
+          </div>
+
+          <!-- Internship Cards Grid -->
+          <div class="cards-grid" id="cardsGrid" role="list" aria-label="Internship listings">
+            <!-- Cards injected by JS -->
+          </div>
+
+          <!-- Empty State (hidden by default) -->
+          <div class="empty-state" id="emptyState" hidden>
+            <div class="empty-icon"><i data-lucide="search-x"></i></div>
+            <h3>No internships found</h3>
+            <p>Try adjusting your filters or search terms to see more results.</p>
+            <button class="btn btn-primary" id="resetEmptyBtn">Clear all filters</button>
+          </div>
+
+          <!-- ── Pagination ── -->
+          <nav class="pagination" id="paginationNav" aria-label="Results pagination">
+            <button class="page-btn prev-btn" id="prevBtn" aria-label="Previous page" disabled>
+              <i data-lucide="chevron-left"></i>
+            </button>
+            <div class="page-numbers" id="pageNumbers">
+              <!-- Injected by JS -->
+            </div>
+            <button class="page-btn next-btn" id="nextBtn" aria-label="Next page">
+              <i data-lucide="chevron-right"></i>
+            </button>
+          </nav>
+
+        </div><!-- /results-column -->
+      </div><!-- /search-body -->
+
+    </main><!-- /main-content -->
+  </div><!-- /app-layout -->
+
+  <!-- ── Mobile Filter Drawer Overlay ── -->
+  <div class="filter-overlay" id="filterOverlay"></div>
+
+  <!-- ── Save / Apply Toast ── -->
+  <div class="toast" id="toast" role="alert" aria-live="assertive">
+    <div class="toast-icon"><i data-lucide="check-circle"></i></div>
+    <span class="toast-message" id="toastMessage">Saved!</span>
+  </div>
+
+  <script src="internships.js"></script>
+</body>
+</html>
