@@ -1,0 +1,557 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>InternLink — Resume Manager</title>
+  <meta name="description" content="Upload, score, and manage all versions of your resume. Get AI-powered improvement suggestions." />
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Outfit:wght@400;500;600;700&display=swap" rel="stylesheet" />
+
+  <!-- Chart.js for score doughnut -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+
+  <link rel="stylesheet" href="resume.css" />
+  <link rel="stylesheet" href="app-shared.css" />
+</head>
+<body>
+
+  <!-- Ambient blobs -->
+  <div class="glow-blob blob-1" aria-hidden="true"></div>
+  <div class="glow-blob blob-2" aria-hidden="true"></div>
+  <div class="glow-blob blob-3" aria-hidden="true"></div>
+
+  <div class="app-layout">
+
+    <!-- ══════════════════ SIDEBAR ══════════════════ -->
+    <aside class="sidebar glass-panel" id="sidebar">
+      <div class="sidebar-header">
+        <a href="index.html" class="logo">
+          <span class="logo-icon"><i data-lucide="link-2"></i></span>
+          <span class="logo-text">InternLink</span>
+        </a>
+        <button class="sidebar-collapse-btn" id="sidebarCollapseBtn" aria-label="Collapse sidebar">
+          <i data-lucide="panel-left-close"></i>
+        </button>
+      </div>
+      <nav class="sidebar-nav" aria-label="Main navigation">
+        <a href="dashboard.html"    class="sidebar-link"><i data-lucide="layout-dashboard"></i><span>Dashboard</span></a>
+        <a href="internships.html"  class="sidebar-link"><i data-lucide="briefcase"></i><span>Internships</span></a>
+        <a href="tracker.html"      class="sidebar-link"><i data-lucide="clipboard-list"></i><span>Applications</span><span class="nav-badge">12</span></a>
+        <a href="resume.html"       class="sidebar-link active"><i data-lucide="file-text"></i><span>Resume</span></a>
+        <a href="skills.html"       class="sidebar-link"><i data-lucide="zap"></i><span>Skill Match</span></a>
+        <a href="profile.html"      class="sidebar-link"><i data-lucide="user"></i><span>Profile</span></a>
+        <a href="profile.html"      class="sidebar-link"><i data-lucide="settings"></i><span>Settings</span></a>
+      </nav>
+      <div class="sidebar-footer">
+        <div class="user-widget">
+          <div class="user-avatar" aria-hidden="true"></div>
+          <div class="user-info">
+            <p class="user-name">Arjun Patel</p>
+            <p class="user-sub">CS Junior · UT Austin</p>
+          </div>
+          <button class="logout-btn" aria-label="Log out"><i data-lucide="log-out"></i></button>
+        </div>
+      </div>
+    </aside>
+
+    <!-- ══════════════════ MAIN ══════════════════════ -->
+    <main class="main-content" id="mainContent">
+
+      <!-- ── Page Header ── -->
+      <header class="page-header">
+        <div class="header-left">
+          <div class="page-icon-badge" aria-hidden="true"><i data-lucide="file-text"></i></div>
+          <div>
+            <h1 class="page-title">Resume Manager</h1>
+            <p class="page-sub">Active resume: <span class="accent-text" id="activeResumeName">Arjun_Resume_v3.pdf</span> · Last updated <span class="accent-text">June 8, 2026</span></p>
+          </div>
+        </div>
+        <div class="header-right">
+          <button class="btn btn-secondary" id="previewBtn">
+            <i data-lucide="eye"></i> Preview
+          </button>
+          <button class="btn btn-secondary" id="downloadBtn">
+            <i data-lucide="download-cloud"></i> Download
+          </button>
+          <button class="btn btn-primary" id="uploadBtn">
+            <i data-lucide="upload-cloud"></i> Upload New Version
+          </button>
+          <input type="file" id="fileInput" accept=".pdf,.docx" hidden aria-label="Upload resume file" />
+        </div>
+      </header>
+
+      <div class="auth-banner" id="authBanner" hidden aria-live="polite"></div>
+
+      <!-- ════════════════════════════════════════════
+           MAIN GRID
+           ════════════════════════════════════════════ -->
+      <div class="page-grid">
+
+        <!-- ══ LEFT COLUMN ══ -->
+        <div class="left-col">
+
+          <!-- ─── CARD: Upload Zone ─── -->
+          <div class="glass-card card-upload" id="uploadZoneCard">
+            <div class="card-header-row">
+              <div class="card-title-group">
+                <span class="card-icon-badge badge-indigo"><i data-lucide="upload-cloud"></i></span>
+                <div>
+                  <h2 class="card-title">Upload Resume</h2>
+                  <p class="card-sub">PDF or DOCX · Max 10 MB</p>
+                </div>
+              </div>
+              <span class="version-tag" id="versionTag">v3 — Active</span>
+            </div>
+
+            <!-- Drop zone -->
+            <div class="drop-zone" id="dropZone" role="button" tabindex="0" aria-label="Drop resume file here or click to browse">
+              <div class="drop-icon-ring">
+                <i data-lucide="file-up"></i>
+              </div>
+              <p class="drop-title">Drag &amp; drop your resume</p>
+              <p class="drop-sub">or <button class="link-btn" id="browseBtn">click to browse</button> your files</p>
+              <div class="drop-formats">
+                <span class="format-chip">PDF</span>
+                <span class="format-chip">DOCX</span>
+                <span class="format-chip">Max 10 MB</span>
+              </div>
+            </div>
+
+            <!-- Upload progress bar (hidden until upload) -->
+            <div class="upload-progress-wrap" id="uploadProgressWrap" hidden>
+              <div class="upload-progress-header">
+                <div class="upload-file-info">
+                  <i data-lucide="file-text"></i>
+                  <span id="uploadFileName">Arjun_Resume_v4.pdf</span>
+                </div>
+                <span class="upload-pct" id="uploadPct">0%</span>
+              </div>
+              <div class="progress-track">
+                <div class="progress-fill" id="progressFill"></div>
+              </div>
+            </div>
+
+            <!-- Active file display -->
+            <div class="active-file-row glass-inner">
+              <div class="active-file-icon"><i data-lucide="file-text"></i></div>
+              <div class="active-file-info">
+                <p class="active-file-name" id="activeFileDisplay">Arjun_Resume_v3.pdf</p>
+                <p class="active-file-meta">248 KB · PDF · Uploaded June 8, 2026</p>
+              </div>
+              <div class="active-file-actions">
+                <button class="icon-action-btn" id="downloadActiveBtn" aria-label="Download active resume" title="Download">
+                  <i data-lucide="download"></i>
+                </button>
+                <button class="icon-action-btn" id="previewActiveBtn" aria-label="Preview active resume" title="Preview">
+                  <i data-lucide="maximize-2"></i>
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <!-- ─── CARD: Resume Score ─── -->
+          <div class="glass-card card-score">
+            <div class="card-header-row">
+              <div class="card-title-group">
+                <span class="card-icon-badge badge-emerald"><i data-lucide="star"></i></span>
+                <div>
+                  <h2 class="card-title">Resume Score</h2>
+                  <p class="card-sub">Based on ATS compatibility + completeness</p>
+                </div>
+              </div>
+              <button class="btn-ghost-sm" id="rescanBtn">
+                <i data-lucide="refresh-cw"></i> Rescan
+              </button>
+            </div>
+
+            <div class="score-layout">
+              <!-- Doughnut ring -->
+              <div class="score-ring-wrap">
+                <canvas id="scoreChart" width="160" height="160" aria-label="Resume score doughnut chart"></canvas>
+                <div class="score-center">
+                  <span class="score-number" id="scoreNumber">91</span>
+                  <span class="score-label">/ 100</span>
+                </div>
+              </div>
+
+              <!-- Score breakdown bars -->
+              <div class="score-breakdown">
+                <div class="breakdown-item" data-score="96">
+                  <div class="breakdown-header">
+                    <span class="breakdown-label">ATS Compatibility</span>
+                    <span class="breakdown-val">96%</span>
+                  </div>
+                  <div class="breakdown-track"><div class="breakdown-fill" style="width:96%;background:#10B981;"></div></div>
+                </div>
+                <div class="breakdown-item" data-score="88">
+                  <div class="breakdown-header">
+                    <span class="breakdown-label">Keyword Density</span>
+                    <span class="breakdown-val">88%</span>
+                  </div>
+                  <div class="breakdown-track"><div class="breakdown-fill" style="width:88%;background:#06B6D4;"></div></div>
+                </div>
+                <div class="breakdown-item" data-score="92">
+                  <div class="breakdown-header">
+                    <span class="breakdown-label">Format & Structure</span>
+                    <span class="breakdown-val">92%</span>
+                  </div>
+                  <div class="breakdown-track"><div class="breakdown-fill" style="width:92%;background:#4F46E5;"></div></div>
+                </div>
+                <div class="breakdown-item" data-score="84">
+                  <div class="breakdown-header">
+                    <span class="breakdown-label">Impact Language</span>
+                    <span class="breakdown-val">84%</span>
+                  </div>
+                  <div class="breakdown-track"><div class="breakdown-fill" style="width:84%;background:#8B5CF6;"></div></div>
+                </div>
+                <div class="breakdown-item" data-score="90">
+                  <div class="breakdown-header">
+                    <span class="breakdown-label">Contact & Links</span>
+                    <span class="breakdown-val">90%</span>
+                  </div>
+                  <div class="breakdown-track"><div class="breakdown-fill" style="width:90%;background:#F59E0B;"></div></div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Score grade band -->
+            <div class="score-grade-row">
+              <span class="grade-dot dot-emerald"></span>
+              <span class="grade-label">Excellent — Your resume is well-optimized for ATS systems.</span>
+              <span class="grade-badge badge-emerald">Top 15%</span>
+            </div>
+          </div>
+
+          <!-- ─── CARD: Improvement Suggestions ─── -->
+          <div class="glass-card card-suggestions">
+            <div class="card-header-row">
+              <div class="card-title-group">
+                <span class="card-icon-badge badge-violet"><i data-lucide="lightbulb"></i></span>
+                <div>
+                  <h2 class="card-title">Improvement Suggestions</h2>
+                  <p class="card-sub">AI-powered · 6 actionable improvements</p>
+                </div>
+              </div>
+              <span class="ai-badge"><i data-lucide="sparkles"></i> AI-Powered</span>
+            </div>
+
+            <div class="suggestions-list" id="suggestionsList">
+              <!-- Injected by JS -->
+            </div>
+          </div>
+
+        </div><!-- /left-col -->
+
+        <!-- ══ RIGHT COLUMN ══ -->
+        <div class="right-col">
+
+          <!-- ─── CARD: Resume Preview ─── -->
+          <div class="glass-card card-preview" id="resumePreviewCard">
+            <div class="card-header-row">
+              <div class="card-title-group">
+                <span class="card-icon-badge badge-cyan"><i data-lucide="eye"></i></span>
+                <div>
+                  <h2 class="card-title">Live Preview</h2>
+                  <p class="card-sub">Keyword highlights shown</p>
+                </div>
+              </div>
+              <div class="preview-controls">
+                <button class="icon-action-btn" id="zoomInBtn"  aria-label="Zoom in"  title="Zoom in"><i data-lucide="zoom-in"></i></button>
+                <button class="icon-action-btn" id="zoomOutBtn" aria-label="Zoom out" title="Zoom out"><i data-lucide="zoom-out"></i></button>
+                <button class="icon-action-btn" id="fullscreenBtn" aria-label="Fullscreen" title="Fullscreen"><i data-lucide="maximize-2"></i></button>
+              </div>
+            </div>
+
+            <!-- Rendered resume mockup -->
+            <div class="resume-preview-frame glass-inner" id="resumePreviewFrame">
+              <div class="resume-doc" id="resumeDoc" style="--zoom:1">
+
+                <!-- Header -->
+                <div class="rdoc-header">
+                  <div class="rdoc-name">Arjun Patel</div>
+                  <div class="rdoc-contact-row">
+                    <span><i data-lucide="mail"></i> arjun@utexas.edu</span>
+                    <span><i data-lucide="phone"></i> (512) 555-0192</span>
+                    <span><i data-lucide="map-pin"></i> Austin, TX</span>
+                  </div>
+                  <div class="rdoc-links-row">
+                    <a href="#" class="rdoc-link kw-match"><i data-lucide="github"></i> github.com/arjunpatel</a>
+                    <a href="#" class="rdoc-link kw-match"><i data-lucide="linkedin"></i> linkedin.com/in/arjunpatel</a>
+                    <a href="#" class="rdoc-link kw-match"><i data-lucide="globe"></i> arjunpatel.dev</a>
+                  </div>
+                </div>
+
+                <!-- Education -->
+                <div class="rdoc-section">
+                  <div class="rdoc-section-title">Education</div>
+                  <div class="rdoc-entry">
+                    <div class="rdoc-entry-header">
+                      <span class="rdoc-entry-title">University of Texas at Austin</span>
+                      <span class="rdoc-entry-date">Aug 2023 – May 2027</span>
+                    </div>
+                    <div class="rdoc-entry-sub">B.S. Computer Science · GPA: 3.7 / 4.0</div>
+                    <div class="rdoc-kw-row">
+                      <span class="kw-chip kw-match">Dean's List</span>
+                      <span class="kw-chip kw-match">Algorithms</span>
+                      <span class="kw-chip kw-match">Data Structures</span>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Experience -->
+                <div class="rdoc-section">
+                  <div class="rdoc-section-title">Experience</div>
+                  <div class="rdoc-entry">
+                    <div class="rdoc-entry-header">
+                      <span class="rdoc-entry-title">Software Engineer Intern · TechCorp</span>
+                      <span class="rdoc-entry-date">May – Aug 2025</span>
+                    </div>
+                    <div class="rdoc-kw-row">
+                      <span class="kw-chip kw-match">Python</span>
+                      <span class="kw-chip kw-match">React</span>
+                      <span class="kw-chip kw-match">REST APIs</span>
+                      <span class="kw-chip kw-partial">PostgreSQL</span>
+                    </div>
+                    <ul class="rdoc-bullets">
+                      <li>Reduced API latency by <strong>40%</strong> using Redis caching layer</li>
+                      <li>Built internal <span class="kw-chip kw-match" style="display:inline;padding:1px 5px">dashboard</span> serving 200+ daily users</li>
+                      <li>Wrote 80+ unit tests achieving <strong>95%</strong> code coverage</li>
+                    </ul>
+                  </div>
+                </div>
+
+                <!-- Projects -->
+                <div class="rdoc-section">
+                  <div class="rdoc-section-title">Projects</div>
+                  <div class="rdoc-entry">
+                    <div class="rdoc-entry-header">
+                      <span class="rdoc-entry-title">InternLink — Full-Stack Platform</span>
+                      <span class="rdoc-entry-date">2026</span>
+                    </div>
+                    <div class="rdoc-kw-row">
+                      <span class="kw-chip kw-match">Node.js</span>
+                      <span class="kw-chip kw-match">TypeScript</span>
+                      <span class="kw-chip kw-match">MongoDB</span>
+                      <span class="kw-chip kw-missing">Docker</span>
+                    </div>
+                    <ul class="rdoc-bullets">
+                      <li>Built a student internship tracking app used by <strong>500+</strong> beta users</li>
+                    </ul>
+                  </div>
+                </div>
+
+                <!-- Skills -->
+                <div class="rdoc-section">
+                  <div class="rdoc-section-title">Technical Skills</div>
+                  <div class="rdoc-skills-grid">
+                    <div class="rdoc-skill-cat">
+                      <span class="rdoc-cat-label">Languages</span>
+                      <div class="rdoc-kw-row">
+                        <span class="kw-chip kw-match">Python</span>
+                        <span class="kw-chip kw-match">JavaScript</span>
+                        <span class="kw-chip kw-match">TypeScript</span>
+                        <span class="kw-chip kw-match">Java</span>
+                        <span class="kw-chip kw-partial">Go</span>
+                      </div>
+                    </div>
+                    <div class="rdoc-skill-cat">
+                      <span class="rdoc-cat-label">Tools</span>
+                      <div class="rdoc-kw-row">
+                        <span class="kw-chip kw-match">Git</span>
+                        <span class="kw-chip kw-match">AWS</span>
+                        <span class="kw-chip kw-missing">Docker</span>
+                        <span class="kw-chip kw-missing">Kubernetes</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Legend -->
+                <div class="rdoc-legend">
+                  <span class="leg-item"><span class="leg-dot dot-green"></span>Matched</span>
+                  <span class="leg-item"><span class="leg-dot dot-amber"></span>Partial</span>
+                  <span class="leg-item"><span class="leg-dot dot-red"></span>Missing</span>
+                </div>
+
+              </div><!-- /resume-doc -->
+            </div><!-- /resume-preview-frame -->
+          </div>
+
+          <!-- ─── CARD: Professional Links ─── -->
+          <div class="glass-card card-links">
+            <div class="card-header-row">
+              <div class="card-title-group">
+                <span class="card-icon-badge badge-amber"><i data-lucide="link"></i></span>
+                <div>
+                  <h2 class="card-title">Professional Links</h2>
+                  <p class="card-sub">Added to your resume automatically</p>
+                </div>
+              </div>
+              <button class="btn-ghost-sm" id="saveLinksBtn">
+                <i data-lucide="save"></i> Save All
+              </button>
+            </div>
+
+            <div class="links-grid" id="linksGrid">
+
+              <!-- GitHub -->
+              <div class="link-card" data-link="github">
+                <div class="link-platform-icon platform-github">
+                  <i data-lucide="github"></i>
+                </div>
+                <div class="link-info">
+                  <label class="link-label" for="githubInput">GitHub</label>
+                  <div class="link-input-row">
+                    <div class="link-input-wrap">
+                      <span class="link-prefix">github.com/</span>
+                      <input type="text" id="githubInput" class="link-input" placeholder="your-username" value="arjunpatel" aria-label="GitHub username" />
+                    </div>
+                    <button class="link-open-btn" aria-label="Open GitHub profile" title="Open">
+                      <i data-lucide="external-link"></i>
+                    </button>
+                  </div>
+                </div>
+                <div class="link-status connected" id="github-status">
+                  <i data-lucide="check-circle-2"></i><span>Connected</span>
+                </div>
+              </div>
+
+              <!-- LinkedIn -->
+              <div class="link-card" data-link="linkedin">
+                <div class="link-platform-icon platform-linkedin">
+                  <i data-lucide="linkedin"></i>
+                </div>
+                <div class="link-info">
+                  <label class="link-label" for="linkedinInput">LinkedIn</label>
+                  <div class="link-input-row">
+                    <div class="link-input-wrap">
+                      <span class="link-prefix">linkedin.com/in/</span>
+                      <input type="text" id="linkedinInput" class="link-input" placeholder="your-name" value="arjun-patel-dev" aria-label="LinkedIn profile URL" />
+                    </div>
+                    <button class="link-open-btn" aria-label="Open LinkedIn profile" title="Open">
+                      <i data-lucide="external-link"></i>
+                    </button>
+                  </div>
+                </div>
+                <div class="link-status connected" id="linkedin-status">
+                  <i data-lucide="check-circle-2"></i><span>Connected</span>
+                </div>
+              </div>
+
+              <!-- Portfolio -->
+              <div class="link-card" data-link="portfolio">
+                <div class="link-platform-icon platform-portfolio">
+                  <i data-lucide="globe"></i>
+                </div>
+                <div class="link-info">
+                  <label class="link-label" for="portfolioInput">Portfolio Website</label>
+                  <div class="link-input-row">
+                    <div class="link-input-wrap">
+                      <span class="link-prefix">https://</span>
+                      <input type="text" id="portfolioInput" class="link-input" placeholder="yoursite.com" value="arjunpatel.dev" aria-label="Portfolio website URL" />
+                    </div>
+                    <button class="link-open-btn" aria-label="Open portfolio website" title="Open">
+                      <i data-lucide="external-link"></i>
+                    </button>
+                  </div>
+                </div>
+                <div class="link-status connected" id="portfolio-status">
+                  <i data-lucide="check-circle-2"></i><span>Connected</span>
+                </div>
+              </div>
+
+              <!-- LeetCode -->
+              <div class="link-card" data-link="leetcode">
+                <div class="link-platform-icon platform-leetcode">
+                  <i data-lucide="code-2"></i>
+                </div>
+                <div class="link-info">
+                  <label class="link-label" for="leetcodeInput">LeetCode</label>
+                  <div class="link-input-row">
+                    <div class="link-input-wrap">
+                      <span class="link-prefix">leetcode.com/u/</span>
+                      <input type="text" id="leetcodeInput" class="link-input" placeholder="your-handle" value="" aria-label="LeetCode profile" />
+                    </div>
+                    <button class="link-open-btn" aria-label="Open LeetCode profile" title="Open">
+                      <i data-lucide="external-link"></i>
+                    </button>
+                  </div>
+                </div>
+                <div class="link-status" id="leetcode-status">
+                  <i data-lucide="plus-circle"></i><span>Not added</span>
+                </div>
+              </div>
+
+            </div><!-- /links-grid -->
+          </div>
+
+          <!-- ─── CARD: Recent Versions ─── -->
+          <div class="glass-card card-versions">
+            <div class="card-header-row">
+              <div class="card-title-group">
+                <span class="card-icon-badge badge-rose"><i data-lucide="history"></i></span>
+                <div>
+                  <h2 class="card-title">Recent Versions</h2>
+                  <p class="card-sub">Last 5 uploads · Click to restore</p>
+                </div>
+              </div>
+              <button class="btn-ghost-sm" id="manageVersionsBtn">
+                <i data-lucide="settings-2"></i> Manage
+              </button>
+            </div>
+
+            <div class="versions-list" id="versionsList">
+              <!-- Injected by JS -->
+            </div>
+          </div>
+
+        </div><!-- /right-col -->
+      </div><!-- /page-grid -->
+
+    </main>
+  </div>
+
+  <!-- ════════════════════════════════════════════════
+       RESUME FULLSCREEN PREVIEW MODAL
+       ════════════════════════════════════════════════ -->
+  <div class="modal-backdrop" id="previewModalBackdrop" aria-hidden="true">
+    <div class="preview-modal glass-panel" role="dialog" aria-modal="true" aria-label="Resume fullscreen preview">
+      <div class="preview-modal-header">
+        <div class="preview-modal-title-row">
+          <i data-lucide="file-text"></i>
+          <span id="previewModalFileName">Arjun_Resume_v3.pdf</span>
+          <span class="version-chip">v3 · Active</span>
+        </div>
+        <div class="preview-modal-actions">
+          <button class="icon-action-btn" id="modalDownloadBtn" aria-label="Download"><i data-lucide="download"></i></button>
+          <button class="icon-action-btn" id="previewModalCloseBtn" aria-label="Close preview"><i data-lucide="x"></i></button>
+        </div>
+      </div>
+      <div class="preview-modal-body">
+        <div class="preview-modal-doc glass-inner" id="previewModalDoc">
+          <!-- Cloned resume content injected by JS -->
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ════════════════════════════════════════════════
+       TOAST
+       ════════════════════════════════════════════════ -->
+  <div class="toast" id="toast" role="alert" aria-live="assertive">
+    <span class="toast-icon-wrap" id="toastIconWrap"><i data-lucide="check-circle"></i></span>
+    <span id="toastMsg">Done!</span>
+    <button class="toast-dismiss" id="toastDismiss" aria-label="Dismiss"><i data-lucide="x"></i></button>
+  </div>
+
+  <script src="session.js"></script>
+  <script src="resume.js"></script>
+</body>
+</html>

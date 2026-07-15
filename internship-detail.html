@@ -1,0 +1,428 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Software Engineer Intern — Google · InternLink</title>
+  <meta name="description" content="Google Software Engineer Intern — Mountain View, CA. Hybrid. $9,000/mo. 94% match." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Outfit:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <link rel="stylesheet" href="internship-detail.css" />
+</head>
+<body>
+
+  <div class="glow-blob blob-1" aria-hidden="true"></div>
+  <div class="glow-blob blob-2" aria-hidden="true"></div>
+
+  <div class="app-layout">
+
+    <!-- ═══════════ SIDEBAR ═══════════ -->
+    <aside class="sidebar glass-panel" id="sidebar">
+      <div class="sidebar-header">
+        <a href="index.html" class="logo">
+          <span class="logo-icon"><i data-lucide="link-2"></i></span>
+          <span class="logo-text">InternLink</span>
+        </a>
+      </div>
+      <nav class="sidebar-nav">
+        <a href="dashboard.html"   class="sidebar-link"><i data-lucide="layout-dashboard"></i><span>Dashboard</span></a>
+        <a href="internships.html" class="sidebar-link active"><i data-lucide="briefcase"></i><span>Internships</span></a>
+        <a href="tracker.html"     class="sidebar-link"><i data-lucide="clipboard-list"></i><span>Applications</span><span class="nav-badge">12</span></a>
+        <a href="resume.html"      class="sidebar-link"><i data-lucide="file-text"></i><span>Resume</span></a>
+        <a href="skills.html"      class="sidebar-link"><i data-lucide="zap"></i><span>Skill Match</span></a>
+        <a href="profile.html"     class="sidebar-link"><i data-lucide="user"></i><span>Profile</span></a>
+        <a href="settings.html"    class="sidebar-link"><i data-lucide="settings"></i><span>Settings</span></a>
+      </nav>
+      <div class="sidebar-footer">
+        <div class="user-widget">
+          <div class="user-avatar"></div>
+          <div class="user-info"><p class="user-name">Arjun Patel</p><p class="user-sub">CS Junior · UT Austin</p></div>
+          <button class="logout-btn" aria-label="Log out"><i data-lucide="log-out"></i></button>
+        </div>
+      </div>
+    </aside>
+
+    <!-- ═══════════ MAIN ═══════════ -->
+    <main class="main-content">
+
+      <!-- Breadcrumb -->
+      <nav class="breadcrumb" aria-label="Breadcrumb">
+        <a href="internships.html" class="bc-link"><i data-lucide="arrow-left"></i> Back to Search</a>
+        <span class="bc-sep">/</span>
+        <span class="bc-current">Software Engineer Intern</span>
+      </nav>
+
+      <div class="detail-layout">
+
+        <!-- ══ LEFT: Main content ══ -->
+        <article class="detail-main">
+
+          <!-- Company Header -->
+          <div class="company-header glass-card">
+            <div class="company-header-top">
+              <div class="company-logo logo-google" aria-hidden="true">G</div>
+              <div class="company-header-info">
+                <div class="company-name-row">
+                  <h1 class="job-title">Software Engineer Intern</h1>
+                  <span class="verified-badge"><i data-lucide="shield-check"></i> Verified</span>
+                </div>
+                <p class="company-name">Google · Mountain View, CA</p>
+                <div class="company-meta-chips">
+                  <span class="meta-chip"><i data-lucide="map-pin"></i>Mountain View, CA</span>
+                  <span class="meta-chip work-hybrid"><i data-lucide="building-2"></i>Hybrid</span>
+                  <span class="meta-chip"><i data-lucide="calendar"></i>Summer 2026</span>
+                  <span class="meta-chip"><i data-lucide="clock"></i>Full-time · 12 weeks</span>
+                  <span class="meta-chip"><i data-lucide="dollar-sign"></i>$9,000 / mo</span>
+                </div>
+              </div>
+              <div class="header-actions-col">
+                <button class="btn-save-job" id="saveJobBtn" aria-label="Save job" title="Save">
+                  <i data-lucide="bookmark" id="saveJobIcon"></i>
+                </button>
+                <button class="btn-share-job" aria-label="Share job" title="Share">
+                  <i data-lucide="share-2"></i>
+                </button>
+              </div>
+            </div>
+
+            <!-- Tags row -->
+            <div class="job-tags-row">
+              <span class="job-tag tag-green"><i data-lucide="check-circle-2"></i>No Experience Required</span>
+              <span class="job-tag tag-blue"><i data-lucide="globe"></i>Visa Friendly (OPT/CPT)</span>
+              <span class="job-tag tag-amber"><i data-lucide="clock"></i>Deadline: Jul 12, 2026</span>
+              <span class="job-tag tag-purple"><i data-lucide="zap"></i>Early Applications Open</span>
+            </div>
+
+            <!-- Deadline countdown -->
+            <div class="deadline-banner">
+              <i data-lucide="alert-triangle"></i>
+              <span>Application closes in <strong id="countdownText">24 days</strong> — don't miss it!</span>
+              <div class="deadline-bar-wrap">
+                <div class="deadline-bar-fill" style="width:65%"></div>
+              </div>
+            </div>
+          </div>
+
+          <!-- About the Role -->
+          <section class="detail-section glass-card" aria-labelledby="aboutTitle">
+            <div class="section-title-row">
+              <span class="section-icon-badge badge-indigo"><i data-lucide="info"></i></span>
+              <h2 class="section-title" id="aboutTitle">About the Role</h2>
+            </div>
+            <p class="detail-body-text">
+              As a Software Engineering Intern at Google, you will join one of our core product teams and work on
+              real, production-grade infrastructure that serves billions of users worldwide. You'll be embedded with
+              a full-time engineering team, participate in design reviews, and ship code that directly impacts
+              Google's products.
+            </p>
+            <p class="detail-body-text">
+              This is a 12-week Summer internship. You will be paired with a dedicated host engineer and a
+              peer intern buddy to ensure you have the mentorship needed to succeed.
+            </p>
+          </section>
+
+          <!-- Responsibilities -->
+          <section class="detail-section glass-card" aria-labelledby="respTitle">
+            <div class="section-title-row">
+              <span class="section-icon-badge badge-cyan"><i data-lucide="list-checks"></i></span>
+              <h2 class="section-title" id="respTitle">Responsibilities</h2>
+            </div>
+            <ul class="detail-list" role="list">
+              <li>Design, develop, and test software components for large-scale distributed systems</li>
+              <li>Collaborate with engineers, PMs, and UX designers in a fast-paced agile environment</li>
+              <li>Participate in code reviews and contribute to engineering best practices</li>
+              <li>Write clean, documented, and testable code following Google's engineering standards</li>
+              <li>Debug production issues and contribute to incident response processes</li>
+              <li>Present your internship project to a cross-functional audience at the end of the program</li>
+              <li>Explore open-ended technical problems and propose innovative solutions</li>
+            </ul>
+          </section>
+
+          <!-- Requirements -->
+          <section class="detail-section glass-card" aria-labelledby="reqTitle">
+            <div class="section-title-row">
+              <span class="section-icon-badge badge-violet"><i data-lucide="clipboard-check"></i></span>
+              <h2 class="section-title" id="reqTitle">Requirements</h2>
+            </div>
+
+            <h3 class="req-sub-title">Minimum Qualifications</h3>
+            <ul class="detail-list" role="list">
+              <li>Currently enrolled in a Bachelor's or Master's degree in Computer Science or related field</li>
+              <li>Experience with one or more general-purpose programming languages (Python, Java, C++, or Go)</li>
+              <li>Understanding of data structures, algorithms, and software design principles</li>
+              <li>Graduating between December 2026 and June 2028</li>
+            </ul>
+
+            <h3 class="req-sub-title" style="margin-top:18px;">Preferred Qualifications</h3>
+            <ul class="detail-list" role="list">
+              <li>Prior internship experience at a technology company</li>
+              <li>Experience with distributed systems, cloud infrastructure (GCP, AWS, Azure)</li>
+              <li>Contributions to open-source projects or personal portfolio on GitHub</li>
+              <li>Strong problem-solving skills demonstrated on LeetCode/competitive programming</li>
+              <li>Experience with machine learning frameworks (TensorFlow, PyTorch)</li>
+            </ul>
+
+            <!-- Required skills chips -->
+            <div class="req-skills-section">
+              <p class="req-skills-label">Required Technical Skills</p>
+              <div class="req-skills-chips">
+                <span class="req-skill matched"><i data-lucide="check-circle-2"></i>Python</span>
+                <span class="req-skill matched"><i data-lucide="check-circle-2"></i>Algorithms</span>
+                <span class="req-skill matched"><i data-lucide="check-circle-2"></i>Data Structures</span>
+                <span class="req-skill matched"><i data-lucide="check-circle-2"></i>REST APIs</span>
+                <span class="req-skill matched"><i data-lucide="check-circle-2"></i>Git</span>
+                <span class="req-skill missing"><i data-lucide="plus-circle"></i>Go (Golang)</span>
+                <span class="req-skill missing"><i data-lucide="plus-circle"></i>Kubernetes</span>
+                <span class="req-skill partial"><i data-lucide="minus-circle"></i>Distributed Systems</span>
+              </div>
+              <div class="skills-legend">
+                <span class="leg-item"><span class="leg-dot dot-green"></span>You have</span>
+                <span class="leg-item"><span class="leg-dot dot-amber"></span>Partial</span>
+                <span class="leg-item"><span class="leg-dot dot-red"></span>Gap</span>
+              </div>
+            </div>
+          </section>
+
+          <!-- Perks & Benefits -->
+          <section class="detail-section glass-card" aria-labelledby="perksTitle">
+            <div class="section-title-row">
+              <span class="section-icon-badge badge-emerald"><i data-lucide="gift"></i></span>
+              <h2 class="section-title" id="perksTitle">Perks &amp; Benefits</h2>
+            </div>
+            <div class="perks-grid">
+              <div class="perk-item"><i data-lucide="dollar-sign"></i><span>$9,000/month stipend</span></div>
+              <div class="perk-item"><i data-lucide="home"></i><span>Housing allowance provided</span></div>
+              <div class="perk-item"><i data-lucide="utensils"></i><span>Free meals on campus</span></div>
+              <div class="perk-item"><i data-lucide="bus"></i><span>Transportation subsidy</span></div>
+              <div class="perk-item"><i data-lucide="laptop"></i><span>Latest MacBook Pro</span></div>
+              <div class="perk-item"><i data-lucide="wifi"></i><span>Relocation assistance</span></div>
+              <div class="perk-item"><i data-lucide="users"></i><span>Intern social events</span></div>
+              <div class="perk-item"><i data-lucide="trending-up"></i><span>Full-time conversion track</span></div>
+            </div>
+          </section>
+
+          <!-- Application Process -->
+          <section class="detail-section glass-card" aria-labelledby="processTitle">
+            <div class="section-title-row">
+              <span class="section-icon-badge badge-amber"><i data-lucide="map"></i></span>
+              <h2 class="section-title" id="processTitle">Application Process</h2>
+            </div>
+            <div class="process-timeline">
+              <div class="process-step done">
+                <div class="process-dot dot-done"><i data-lucide="check"></i></div>
+                <div class="process-content"><p class="process-title">Apply Online</p><p class="process-sub">Submit resume · Deadline Jul 12</p></div>
+              </div>
+              <div class="process-line"></div>
+              <div class="process-step">
+                <div class="process-dot dot-pending">2</div>
+                <div class="process-content"><p class="process-title">Online Assessment (OA)</p><p class="process-sub">2 coding problems · 90 minutes</p></div>
+              </div>
+              <div class="process-line"></div>
+              <div class="process-step">
+                <div class="process-dot dot-pending">3</div>
+                <div class="process-content"><p class="process-title">Technical Phone Screen</p><p class="process-sub">45-min coding interview with engineer</p></div>
+              </div>
+              <div class="process-line"></div>
+              <div class="process-step">
+                <div class="process-dot dot-pending">4</div>
+                <div class="process-content"><p class="process-title">Onsite / Virtual Loop</p><p class="process-sub">2–3 rounds: coding + behavioral</p></div>
+              </div>
+              <div class="process-line"></div>
+              <div class="process-step">
+                <div class="process-dot dot-pending">5</div>
+                <div class="process-content"><p class="process-title">Offer &amp; Decision</p><p class="process-sub">Usually within 2 weeks of loop</p></div>
+              </div>
+            </div>
+          </section>
+
+          <!-- Peer Insights -->
+          <section class="detail-section glass-card" aria-labelledby="insightsTitle">
+            <div class="section-title-row">
+              <span class="section-icon-badge badge-rose"><i data-lucide="message-square"></i></span>
+              <h2 class="section-title" id="insightsTitle">Peer Insights</h2>
+              <span class="crowdsource-badge">Crowd-sourced by interns</span>
+            </div>
+            <div class="insights-list">
+              <div class="insight-card">
+                <div class="insight-avatar av-1"></div>
+                <div class="insight-body">
+                  <p class="insight-text">"The OA has 2 medium LeetCode problems. Focus on arrays and graphs. Got 4 weeks to complete after applying."</p>
+                  <span class="insight-meta">SWE Intern · Summer 2025 · Mountain View</span>
+                </div>
+              </div>
+              <div class="insight-card">
+                <div class="insight-avatar av-2"></div>
+                <div class="insight-body">
+                  <p class="insight-text">"Behavioral questions focused on leadership and impact. Prepare STAR stories around teamwork and handling ambiguity."</p>
+                  <span class="insight-meta">SWE Intern · Summer 2025 · NYC</span>
+                </div>
+              </div>
+              <div class="insight-card">
+                <div class="insight-avatar av-3"></div>
+                <div class="insight-body">
+                  <p class="insight-text">"Culture is amazing. The housing stipend covers most of Bay Area costs. Start your LC grind early — minimum 150 problems."</p>
+                  <span class="insight-meta">SWE Intern · Summer 2024 · Sunnyvale</span>
+                </div>
+              </div>
+            </div>
+          </section>
+
+        </article>
+
+        <!-- ══ RIGHT: Sidebar sticky panel ══ -->
+        <aside class="detail-sidebar">
+
+          <!-- Apply Card -->
+          <div class="apply-card glass-card" id="applyCard">
+            <!-- Match Score Ring -->
+            <div class="match-score-display">
+              <div class="match-ring-wrap">
+                <svg class="match-ring-svg" viewBox="0 0 100 100" aria-label="Match score 94 percent">
+                  <circle class="match-track" cx="50" cy="50" r="42"/>
+                  <circle class="match-fill" cx="50" cy="50" r="42" id="matchRingFill"/>
+                  <defs>
+                    <linearGradient id="matchGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                      <stop offset="0%" stop-color="#4F46E5"/>
+                      <stop offset="100%" stop-color="#10B981"/>
+                    </linearGradient>
+                  </defs>
+                </svg>
+                <div class="match-ring-center">
+                  <span class="match-pct-num" id="matchPctNum">94</span>
+                  <span class="match-pct-label">Match</span>
+                </div>
+              </div>
+              <div class="match-grade">
+                <span class="match-grade-label">Excellent Match</span>
+                <span class="match-grade-sub">18 of 22 required skills</span>
+              </div>
+            </div>
+
+            <!-- Salary -->
+            <div class="salary-display">
+              <i data-lucide="dollar-sign"></i>
+              <span class="salary-amount">$9,000 / month</span>
+              <span class="salary-type">Paid · Full-time</span>
+            </div>
+
+            <!-- Apply button -->
+            <button class="btn-apply" id="applyBtn">
+              <i data-lucide="send" id="applyBtnIcon"></i>
+              <span id="applyBtnLabel">Apply Now</span>
+            </button>
+
+            <!-- Save + Share -->
+            <div class="apply-secondary-btns">
+              <button class="btn-secondary-action" id="saveToTrackerBtn">
+                <i data-lucide="bookmark-plus"></i> Save to Tracker
+              </button>
+              <button class="btn-secondary-action" id="shareJobBtn2">
+                <i data-lucide="share-2"></i> Share
+              </button>
+            </div>
+
+            <!-- Quick facts -->
+            <div class="quick-facts">
+              <div class="quick-fact"><i data-lucide="calendar"></i><span>Deadline</span><strong>Jul 12, 2026</strong></div>
+              <div class="quick-fact"><i data-lucide="clock"></i><span>Duration</span><strong>12 weeks</strong></div>
+              <div class="quick-fact"><i data-lucide="users"></i><span>Team Size</span><strong>8–12 people</strong></div>
+              <div class="quick-fact"><i data-lucide="map-pin"></i><span>Location</span><strong>Mountain View, CA</strong></div>
+              <div class="quick-fact"><i data-lucide="globe"></i><span>Work Type</span><strong>Hybrid (3 days onsite)</strong></div>
+              <div class="quick-fact"><i data-lucide="shield-check"></i><span>Visa</span><strong>OPT/CPT Supported</strong></div>
+            </div>
+          </div>
+
+          <!-- Company Info Card -->
+          <div class="company-info-card glass-card">
+            <div class="ci-header">
+              <div class="company-logo logo-google ci-logo" aria-hidden="true">G</div>
+              <div>
+                <p class="ci-name">Google</p>
+                <p class="ci-industry">Technology · Search &amp; Cloud</p>
+              </div>
+            </div>
+            <div class="ci-stats">
+              <div class="ci-stat"><span class="ci-stat-val">182k+</span><span class="ci-stat-label">Employees</span></div>
+              <div class="ci-stat"><span class="ci-stat-val">1998</span><span class="ci-stat-label">Founded</span></div>
+              <div class="ci-stat"><span class="ci-stat-val">4.4★</span><span class="ci-stat-label">Glassdoor</span></div>
+            </div>
+            <p class="ci-desc">Google LLC is an American multinational technology company focusing on search engine technology, online advertising, cloud computing, and AI. A subsidiary of Alphabet Inc.</p>
+            <a href="#" class="ci-link" target="_blank" rel="noopener">
+              <i data-lucide="external-link"></i> View Company Profile
+            </a>
+          </div>
+
+          <!-- Similar roles -->
+          <div class="similar-card glass-card">
+            <h3 class="similar-title">Similar Roles</h3>
+            <div class="similar-list" id="similarList">
+              <a href="#" class="similar-item">
+                <div class="similar-logo logo-meta">M</div>
+                <div class="similar-info">
+                  <p class="similar-role">Frontend Intern</p>
+                  <p class="similar-company">Meta · Hybrid · $8,500</p>
+                </div>
+                <span class="similar-match">88%</span>
+              </a>
+              <a href="#" class="similar-item">
+                <div class="similar-logo logo-stripe">S</div>
+                <div class="similar-info">
+                  <p class="similar-role">Backend Intern</p>
+                  <p class="similar-company">Stripe · Hybrid · $8,000</p>
+                </div>
+                <span class="similar-match">87%</span>
+              </a>
+              <a href="#" class="similar-item">
+                <div class="similar-logo logo-amazon">A</div>
+                <div class="similar-info">
+                  <p class="similar-role">SDE Intern</p>
+                  <p class="similar-company">Amazon · Hybrid · $8,200</p>
+                </div>
+                <span class="similar-match">82%</span>
+              </a>
+            </div>
+          </div>
+
+        </aside>
+      </div>
+
+    </main>
+  </div>
+
+  <!-- Apply modal -->
+  <div class="apply-modal-backdrop" id="applyModalBackdrop" aria-hidden="true">
+    <div class="apply-modal glass-panel" role="dialog" aria-modal="true" aria-labelledby="applyModalTitle">
+      <div class="apply-modal-header">
+        <h2 id="applyModalTitle">Apply to Google</h2>
+        <button class="modal-close" id="applyModalClose" aria-label="Close"><i data-lucide="x"></i></button>
+      </div>
+      <div class="apply-modal-body">
+        <div class="apply-modal-logo logo-google">G</div>
+        <p class="apply-modal-role">Software Engineer Intern</p>
+        <p class="apply-modal-sub">You'll be redirected to Google's application portal. Your resume will be pre-filled where possible.</p>
+        <div class="apply-modal-resume-row">
+          <i data-lucide="file-text"></i>
+          <span>Using: <strong>Arjun_Resume_v3.pdf</strong></span>
+          <a href="resume.html" class="change-resume-link">Change</a>
+        </div>
+      </div>
+      <div class="apply-modal-footer">
+        <button class="btn-modal-cancel" id="applyModalCancel">Cancel</button>
+        <button class="btn-modal-apply" id="applyModalConfirm">
+          <i data-lucide="external-link"></i> Continue to Google
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast -->
+  <div class="toast" id="toast" role="alert" aria-live="assertive">
+    <span class="toast-icon" id="toastIcon"><i data-lucide="check-circle"></i></span>
+    <span id="toastMsg"></span>
+  </div>
+
+  <script src="internship-detail.js"></script>
+</body>
+</html>

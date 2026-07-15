@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>InternLink — Get Started</title>
+  <meta name="description" content="Personalize your InternLink experience. Select your interests, add skills, and upload your resume." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Outfit:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <link rel="stylesheet" href="onboarding.css" />
+</head>
+<body>
+
+  <div class="glow-blob blob-1" aria-hidden="true"></div>
+  <div class="glow-blob blob-2" aria-hidden="true"></div>
+  <div class="glow-blob blob-3" aria-hidden="true"></div>
+
+  <!-- Top bar -->
+  <nav class="ob-topbar">
+    <a href="index.html" class="logo" aria-label="InternLink home">
+      <span class="logo-icon">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+      </span>
+      <span class="logo-text">InternLink</span>
+    </a>
+    <button class="skip-btn" id="skipAllBtn" type="button">
+      Skip setup <i data-lucide="chevron-right"></i>
+    </button>
+  </nav>
+
+  <!-- Progress bar -->
+  <div class="ob-progress-bar" role="progressbar" aria-valuenow="1" aria-valuemin="1" aria-valuemax="3" aria-label="Onboarding progress">
+    <div class="ob-progress-fill" id="obProgressFill"></div>
+  </div>
+
+  <!-- Main onboarding container -->
+  <main class="ob-main" id="obMain">
+
+    <!-- ════════ STEP INDICATOR ════════ -->
+    <div class="ob-steps" id="obSteps" aria-label="Setup steps">
+      <div class="ob-step active" data-step="1">
+        <div class="ob-step-circle">
+          <span class="ob-step-num">1</span>
+          <i data-lucide="check" class="ob-step-check" style="display:none"></i>
+        </div>
+        <span class="ob-step-label">Interests</span>
+      </div>
+      <div class="ob-step-connector"></div>
+      <div class="ob-step" data-step="2">
+        <div class="ob-step-circle">
+          <span class="ob-step-num">2</span>
+          <i data-lucide="check" class="ob-step-check" style="display:none"></i>
+        </div>
+        <span class="ob-step-label">Skills</span>
+      </div>
+      <div class="ob-step-connector"></div>
+      <div class="ob-step" data-step="3">
+        <div class="ob-step-circle">
+          <span class="ob-step-num">3</span>
+          <i data-lucide="check" class="ob-step-check" style="display:none"></i>
+        </div>
+        <span class="ob-step-label">Resume</span>
+      </div>
+    </div>
+
+    <!-- ════════ STEP 1: SELECT INTERESTS ════════ -->
+    <section class="ob-panel active" id="panel-1" aria-labelledby="step1Title">
+      <div class="ob-panel-header">
+        <div class="ob-panel-emoji">🎯</div>
+        <h1 class="ob-panel-title" id="step1Title">What are you interested in?</h1>
+        <p class="ob-panel-sub">Select all that apply — we'll personalise your internship feed</p>
+      </div>
+
+      <div class="interests-grid" id="interestsGrid" role="group" aria-label="Interest categories">
+        <!-- Frontend -->
+        <button class="interest-card" data-interest="frontend" type="button" aria-pressed="false">
+          <div class="interest-icon" style="background:rgba(79,70,229,.18);color:#a5b4fc;">
+            <i data-lucide="layout-dashboard"></i>
+          </div>
+          <span class="interest-name">Frontend</span>
+          <span class="interest-desc">React, Vue, HTML/CSS</span>
+          <div class="interest-check"><i data-lucide="check"></i></div>
+        </button>
+        <!-- Backend -->
+        <button class="interest-card" data-interest="backend" type="button" aria-pressed="false">
+          <div class="interest-icon" style="background:rgba(6,182,212,.18);color:#67e8f9;">
+            <i data-lucide="server"></i>
+          </div>
+          <span class="interest-name">Backend</span>
+          <span class="interest-desc">Node.js, Python, Java</span>
+          <div class="interest-check"><i data-lucide="check"></i></div>
+        </button>
+        <!-- Mobile -->
+        <button class="interest-card" data-interest="mobile" type="button" aria-pressed="false">
+          <div class="interest-icon" style="background:rgba(16,185,129,.18);color:#6ee7b7;">
+            <i data-lucide="smartphone"></i>
+          </div>
+          <span class="interest-name">Mobile</span>
+          <span class="interest-desc">iOS, Android, Flutter</span>
+          <div class="interest-check"><i data-lucide="check"></i></div>
+        </button>
+        <!-- UI/UX -->
+        <button class="interest-card" data-interest="uiux" type="button" aria-pressed="false">
+          <div class="interest-icon" style="background:rgba(245,158,11,.18);color:#fde68a;">
+            <i data-lucide="pen-tool"></i>
+          </div>
+          <span class="interest-name">UI / UX Design</span>
+          <span class="interest-desc">Figma, Prototyping</span>
+          <div class="interest-check"><i data-lucide="check"></i></div>
+        </button>
+        <!-- Data Science -->
+        <button class="interest-card" data-interest="data-science" type="button" aria-pressed="false">
+          <div class="interest-icon" style="background:rgba(139,92,246,.18);color:#c4b5fd;">
+            <i data-lucide="bar-chart-2"></i>
+          </div>
+          <span class="interest-name">Data Science</span>
+          <span class="interest-desc">ML, SQL, Analytics</span>
+          <div class="interest-check"><i data-lucide="check"></i></div>
+        </button>
+        <!-- QA Testing -->
+        <button class="interest-card" data-interest="qa" type="button" aria-pressed="false">
+          <div class="interest-icon" style="background:rgba(244,63,94,.18);color:#fda4af;">
+            <i data-lucide="shield-check"></i>
+          </div>
+          <span class="interest-name">QA / Testing</span>
+          <span class="interest-desc">Selenium, Jest, Cypress</span>
+          <div class="interest-check"><i data-lucide="check"></i></div>
+        </button>
+        <!-- DevOps -->
+        <button class="interest-card" data-interest="devops" type="button" aria-pressed="false">
+          <div class="interest-icon" style="background:rgba(6,182,212,.15);color:#22d3ee;">
+            <i data-lucide="git-branch"></i>
+          </div>
+          <span class="interest-name">DevOps / Cloud</span>
+          <span class="interest-desc">AWS, Docker, Kubernetes</span>
+          <div class="interest-check"><i data-lucide="check"></i></div>
+        </button>
+        <!-- Product Management -->
+        <button class="interest-card" data-interest="product" type="button" aria-pressed="false">
+          <div class="interest-icon" style="background:rgba(16,185,129,.15);color:#34d399;">
+            <i data-lucide="kanban"></i>
+          </div>
+          <span class="interest-name">Product Management</span>
+          <span class="interest-desc">Roadmaps, Analytics</span>
+          <div class="interest-check"><i data-lucide="check"></i></div>
+        </button>
+        <!-- Cybersecurity -->
+        <button class="interest-card" data-interest="security" type="button" aria-pressed="false">
+          <div class="interest-icon" style="background:rgba(239,68,68,.15);color:#fca5a5;">
+            <i data-lucide="lock"></i>
+          </div>
+          <span class="interest-name">Cybersecurity</span>
+          <span class="interest-desc">Pentesting, SIEM</span>
+          <div class="interest-check"><i data-lucide="check"></i></div>
+        </button>
+        <!-- Finance / Business -->
+        <button class="interest-card" data-interest="finance" type="button" aria-pressed="false">
+          <div class="interest-icon" style="background:rgba(245,158,11,.15);color:#fbbf24;">
+            <i data-lucide="dollar-sign"></i>
+          </div>
+          <span class="interest-name">Finance / Business</span>
+          <span class="interest-desc">Analysis, Strategy</span>
+          <div class="interest-check"><i data-lucide="check"></i></div>
+        </button>
+        <!-- Marketing -->
+        <button class="interest-card" data-interest="marketing" type="button" aria-pressed="false">
+          <div class="interest-icon" style="background:rgba(79,70,229,.15);color:#a5b4fc;">
+            <i data-lucide="megaphone"></i>
+          </div>
+          <span class="interest-name">Marketing</span>
+          <span class="interest-desc">SEO, Growth, Content</span>
+          <div class="interest-check"><i data-lucide="check"></i></div>
+        </button>
+        <!-- Research -->
+        <button class="interest-card" data-interest="research" type="button" aria-pressed="false">
+          <div class="interest-icon" style="background:rgba(139,92,246,.15);color:#c4b5fd;">
+            <i data-lucide="microscope"></i>
+          </div>
+          <span class="interest-name">Research / Academia</span>
+          <span class="interest-desc">Lab work, Publications</span>
+          <div class="interest-check"><i data-lucide="check"></i></div>
+        </button>
+      </div>
+
+      <div class="ob-selection-hint" id="interestsHint">Select at least 1 interest to continue</div>
+    </section>
+
+    <!-- ════════ STEP 2: ADD SKILLS ════════ -->
+    <section class="ob-panel" id="panel-2" aria-labelledby="step2Title" hidden>
+      <div class="ob-panel-header">
+        <div class="ob-panel-emoji">⚡</div>
+        <h1 class="ob-panel-title" id="step2Title">What skills do you have?</h1>
+        <p class="ob-panel-sub">Pick your current skills — we'll find your best-matching internships</p>
+      </div>
+
+      <!-- Skill category tabs -->
+      <div class="skills-tabs" role="tablist" aria-label="Skill categories">
+        <button class="skills-tab active" data-tab="all"         role="tab" aria-selected="true">All</button>
+        <button class="skills-tab" data-tab="languages"          role="tab">Languages</button>
+        <button class="skills-tab" data-tab="frameworks"         role="tab">Frameworks</button>
+        <button class="skills-tab" data-tab="tools"              role="tab">Tools</button>
+        <button class="skills-tab" data-tab="design"             role="tab">Design</button>
+        <button class="skills-tab" data-tab="soft"               role="tab">Soft Skills</button>
+      </div>
+
+      <div class="skills-pool" id="skillsPool" role="group" aria-label="Available skills">
+        <!-- Skills injected by JS -->
+      </div>
+
+      <!-- Custom skill add -->
+      <div class="custom-skill-row">
+        <div class="custom-skill-input-wrap">
+          <i data-lucide="plus-circle"></i>
+          <input type="text" id="customSkillInput" placeholder="Add a custom skill (e.g. TensorFlow)" aria-label="Add custom skill" maxlength="40" />
+        </div>
+        <button class="btn-add-custom" id="addCustomSkillBtn" type="button">
+          <i data-lucide="plus"></i> Add
+        </button>
+      </div>
+
+      <!-- Selected skills display -->
+      <div class="selected-skills-section">
+        <p class="selected-skills-label">Selected skills (<span id="selectedSkillCount">0</span>)</p>
+        <div class="selected-skills-wrap" id="selectedSkillsWrap">
+          <span class="selected-empty-hint">No skills selected yet — tap skill chips above</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- ════════ STEP 3: UPLOAD RESUME ════════ -->
+    <section class="ob-panel" id="panel-3" aria-labelledby="step3Title" hidden>
+      <div class="ob-panel-header">
+        <div class="ob-panel-emoji">📄</div>
+        <h1 class="ob-panel-title" id="step3Title">Upload your resume</h1>
+        <p class="ob-panel-sub">We'll analyse it to boost your match score and find skill gaps</p>
+      </div>
+
+      <!-- Drop Zone -->
+      <div class="resume-drop-zone" id="resumeDropZone" tabindex="0" role="button" aria-label="Drop resume file or click to browse">
+        <div class="drop-icon-ring" id="dropIconRing">
+          <i data-lucide="upload-cloud" id="dropIcon"></i>
+        </div>
+        <p class="drop-title" id="dropTitle">Drag &amp; drop your resume here</p>
+        <p class="drop-sub">or <button type="button" class="link-btn" id="dropBrowseBtn">click to browse</button></p>
+        <div class="drop-accepted">
+          <span class="format-chip">PDF</span>
+          <span class="format-chip">DOCX</span>
+          <span class="format-chip">Max 10 MB</span>
+        </div>
+      </div>
+      <input type="file" id="resumeFileInput" accept=".pdf,.docx" hidden aria-label="Upload resume file" />
+
+      <!-- Upload progress (hidden until upload) -->
+      <div class="upload-progress-card" id="uploadProgressCard" hidden>
+        <div class="upload-file-row">
+          <div class="upload-file-icon"><i data-lucide="file-text"></i></div>
+          <div class="upload-file-info">
+            <span class="upload-file-name" id="uploadFileName">resume.pdf</span>
+            <span class="upload-file-size" id="uploadFileSize">248 KB</span>
+          </div>
+          <span class="upload-pct" id="uploadPct">0%</span>
+        </div>
+        <div class="upload-track">
+          <div class="upload-fill" id="uploadFill"></div>
+        </div>
+      </div>
+
+      <!-- Success state -->
+      <div class="upload-success-card" id="uploadSuccessCard" hidden>
+        <div class="upload-success-icon"><i data-lucide="check-circle-2"></i></div>
+        <div class="upload-success-info">
+          <p class="upload-success-name" id="uploadSuccessName">Arjun_Resume_v3.pdf</p>
+          <p class="upload-success-meta">Analysing skills… <span class="analysis-badge">87% match detected</span></p>
+        </div>
+        <button type="button" class="upload-remove-btn" id="uploadRemoveBtn" aria-label="Remove uploaded file">
+          <i data-lucide="x"></i>
+        </button>
+      </div>
+
+      <!-- OR divider -->
+      <div class="resume-divider"><span>or</span></div>
+
+      <!-- Portfolio / Social links -->
+      <div class="resume-links-grid">
+        <div class="resume-link-field">
+          <label class="rl-label" for="obLinkedin">
+            <i data-lucide="linkedin"></i> LinkedIn
+          </label>
+          <div class="rl-input-wrap">
+            <span class="rl-prefix">linkedin.com/in/</span>
+            <input type="text" id="obLinkedin" placeholder="your-profile" class="rl-input" />
+          </div>
+        </div>
+        <div class="resume-link-field">
+          <label class="rl-label" for="obGithub">
+            <i data-lucide="github"></i> GitHub
+          </label>
+          <div class="rl-input-wrap">
+            <span class="rl-prefix">github.com/</span>
+            <input type="text" id="obGithub" placeholder="your-username" class="rl-input" />
+          </div>
+        </div>
+        <div class="resume-link-field">
+          <label class="rl-label" for="obPortfolio">
+            <i data-lucide="globe"></i> Portfolio
+          </label>
+          <div class="rl-input-wrap">
+            <span class="rl-prefix">https://</span>
+            <input type="text" id="obPortfolio" placeholder="yoursite.com" class="rl-input" />
+          </div>
+        </div>
+      </div>
+
+      <!-- Skip hint -->
+      <p class="skip-hint-text">
+        <i data-lucide="info"></i>
+        You can always upload your resume later from the Resume Manager.
+      </p>
+    </section>
+
+    <!-- ════════ NAVIGATION BUTTONS ════════ -->
+    <div class="ob-nav-buttons">
+      <button type="button" class="btn-ob-back" id="obBackBtn" style="display:none">
+        <i data-lucide="arrow-left"></i> Back
+      </button>
+      <div class="ob-nav-right">
+        <button type="button" class="btn-ob-skip" id="obSkipStepBtn">
+          Skip this step
+        </button>
+        <button type="button" class="btn-ob-next" id="obNextBtn">
+          Continue <i data-lucide="arrow-right"></i>
+        </button>
+      </div>
+    </div>
+
+  </main>
+
+  <!-- Toast -->
+  <div class="toast" id="toast" role="alert" aria-live="assertive">
+    <span class="toast-icon" id="toastIcon"><i data-lucide="check-circle"></i></span>
+    <span id="toastMsg"></span>
+  </div>
+
+  <script src="onboarding.js"></script>
+</body>
+</html>

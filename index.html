@@ -1,0 +1,399 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>InternLink - Find Your Dream Internship Faster</title>
+  <meta name="description" content="Discover opportunities, track applications, and match your skills with top companies using our premium, automated student internship platform.">
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Outfit:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <!-- Styling -->
+  <link rel="stylesheet" href="style.css">
+  <!-- Lucide Icons CDN -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+</head>
+<body>
+
+  <!-- Glow Background Blobs -->
+  <div class="glow-blob blob-1"></div>
+  <div class="glow-blob blob-2"></div>
+  <div class="glow-blob blob-3"></div>
+
+  <!-- Navigation Header -->
+  <header class="navbar">
+    <div class="container navbar-container">
+      <a href="index.html" class="logo">
+        <span class="logo-icon"><i data-lucide="link-2"></i></span>
+        <span class="logo-text">InternLink</span>
+      </a>
+      <nav class="nav-menu">
+        <a href="#features" class="nav-link">Features</a>
+        <a href="#how-it-works" class="nav-link">How It Works</a>
+        <a href="#success" class="nav-link">Success Stories</a>
+        <a href="#faq" class="nav-link">FAQ</a>
+      </nav>
+      <div class="nav-actions">
+        <a href="login.html" class="btn btn-ghost">Log In</a>
+        <a href="register.html" class="btn btn-primary nav-cta">Get Started</a>
+      </div>
+      <button class="menu-toggle" id="menuToggle" aria-label="Toggle Menu">
+        <i data-lucide="menu" id="menuIcon"></i>
+      </button>
+    </div>
+  </header>
+
+  <!-- Mobile Sidebar Drawer -->
+  <div class="mobile-drawer" id="mobileDrawer">
+    <div class="mobile-drawer-content">
+      <nav class="mobile-nav">
+        <a href="#features" class="mobile-link">Features</a>
+        <a href="#how-it-works" class="mobile-link">How It Works</a>
+        <a href="#success" class="mobile-link">Success Stories</a>
+        <a href="#faq" class="mobile-link">FAQ</a>
+        <div class="mobile-actions">
+          <a href="login.html" class="btn btn-ghost w-full">Log In</a>
+          <a href="register.html" class="btn btn-primary w-full">Get Started</a>
+        </div>
+      </nav>
+    </div>
+  </div>
+
+  <!-- Hero Section -->
+  <section class="hero-section">
+    <div class="container hero-container">
+      <div class="hero-content">
+        <div class="badge-container">
+          <span class="badge-glow"><i data-lucide="sparkles"></i> Class of 2026 Recruitment is Live</span>
+        </div>
+        <h1 class="hero-title">Find Your <span class="gradient-text">Dream Internship</span> Faster</h1>
+        <p class="hero-subtitle">Discover opportunities, track applications, and match your skills with top companies.</p>
+        <div class="hero-actions">
+          <a href="internships.html" class="btn btn-primary btn-lg"><i data-lucide="search"></i> Find Internships</a>
+          <a href="resume.html" class="btn btn-secondary btn-lg"><i data-lucide="upload-cloud"></i> Upload Resume</a>
+        </div>
+        <div class="hero-stats">
+          <div class="stat-item">
+            <h3 class="stat-number">10k+</h3>
+            <p class="stat-label">Active Students</p>
+          </div>
+          <div class="stat-divider"></div>
+          <div class="stat-item">
+            <h3 class="stat-number">500+</h3>
+            <p class="stat-label">Top Companies</p>
+          </div>
+          <div class="stat-divider"></div>
+          <div class="stat-item">
+            <h3 class="stat-number">94%</h3>
+            <p class="stat-label">Match Success Rate</p>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Interactive Hero Mockup (Glassmorphism Showcase) -->
+      <div class="hero-mockup">
+        <div class="mockup-frame glass-panel">
+          <div class="mockup-header">
+            <div class="mockup-dots"><span></span><span></span><span></span></div>
+            <div class="mockup-search"><i data-lucide="search"></i> Search "Software Engineer Intern"...</div>
+          </div>
+          <div class="mockup-body">
+            <!-- Glassmorphic Overlay Card 1 -->
+            <div class="glass-card mockup-card floating-1">
+              <div class="card-company">
+                <div class="company-logo logo-stripe">S</div>
+                <div>
+                  <h4 class="company-title">Software Engineer Intern</h4>
+                  <p class="company-sub">Stripe • Seattle, WA</p>
+                </div>
+              </div>
+              <div class="card-badges">
+                <span class="m-badge badge-paid">Paid</span>
+                <span class="m-badge badge-visa">Visa Ok</span>
+              </div>
+              <div class="card-score">
+                <span>Resume Match Score</span>
+                <span class="score-num text-cyan">92%</span>
+              </div>
+            </div>
+
+            <!-- Glassmorphic Overlay Card 2 -->
+            <div class="glass-card mockup-card floating-2">
+              <h4 class="tracker-title"><i data-lucide="check-square" class="text-indigo"></i> Application Tracker</h4>
+              <div class="tracker-pipeline">
+                <div class="pipeline-step active">Applied</div>
+                <div class="pipeline-arrow"><i data-lucide="chevron-right"></i></div>
+                <div class="pipeline-step current">OA Completed</div>
+                <div class="pipeline-arrow"><i data-lucide="chevron-right"></i></div>
+                <div class="pipeline-step">Interview</div>
+              </div>
+              <div class="tracker-alert">
+                <i data-lucide="calendar" class="text-amber"></i>
+                <span>Technical Panel scheduled for June 12</span>
+              </div>
+            </div>
+
+            <!-- Glassmorphic Overlay Card 3 -->
+            <div class="glass-card mockup-card floating-3">
+              <div class="skill-meter-header">
+                <span>Employability Index</span>
+                <span class="text-emerald">High</span>
+              </div>
+              <div class="progress-bar-container">
+                <div class="progress-bar-fill" style="width: 84%;"></div>
+              </div>
+              <div class="skills-chips">
+                <span class="chip">Python</span>
+                <span class="chip">SQL</span>
+                <span class="chip-missing">+ Docker</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Trusted Companies -->
+  <section class="companies-section">
+    <div class="container">
+      <p class="companies-title">TRUSTED BY STUDENTS LANDING OFFERS AT</p>
+      <div class="companies-grid">
+        <div class="company-logo-item">Stripe</div>
+        <div class="company-logo-item">Microsoft</div>
+        <div class="company-logo-item">Google</div>
+        <div class="company-logo-item">Meta</div>
+        <div class="company-logo-item">Salesforce</div>
+        <div class="company-logo-item">Amazon</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Features Section -->
+  <section id="features" class="features-section">
+    <div class="container">
+      <div class="section-header">
+        <h2 class="section-title">Designed Specifically for <span class="gradient-text">Student Success</span></h2>
+        <p class="section-subtitle">No more spreadsheets, hidden details, or missed opportunities. InternLink brings everything into one unified dashboard.</p>
+      </div>
+      <div class="features-grid">
+        <!-- Feature 1 -->
+        <div class="glass-card feature-card">
+          <div class="feature-icon icon-indigo"><i data-lucide="compass"></i></div>
+          <h3 class="feature-card-title">Smart Discovery Engine</h3>
+          <p class="feature-card-desc">Filter roles based on student-specific metadata: paid vs unpaid, CPT/OPT support, GPA cutoffs, and visa requirements.</p>
+        </div>
+        <!-- Feature 2 -->
+        <div class="glass-card feature-card">
+          <div class="feature-icon icon-cyan"><i data-lucide="kanban"></i></div>
+          <h3 class="feature-card-title">Visual Application Tracker</h3>
+          <p class="feature-card-desc">Automatically populate application details via our browser extension and manage them using an intuitive Kanban pipeline.</p>
+        </div>
+        <!-- Feature 3 -->
+        <div class="glass-card feature-card">
+          <div class="feature-icon icon-emerald"><i data-lucide="target"></i></div>
+          <h3 class="feature-card-title">AI Skill Gap Matching</h3>
+          <p class="feature-card-desc">Analyze your resume against job postings to find keywords and skills that ATS filters expect, with recommendations on how to upskill.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- How It Works Section -->
+  <section id="how-it-works" class="how-section">
+    <div class="container">
+      <div class="section-header">
+        <h2 class="section-title">Three Steps to <span class="gradient-text">Land Your Offer</span></h2>
+        <p class="section-subtitle">InternLink automates the tedious administrative steps so you can focus on mastering your interviews.</p>
+      </div>
+      <div class="steps-container">
+        <!-- Step 1 -->
+        <div class="step-card">
+          <div class="step-number">01</div>
+          <h3 class="step-title">Upload & Optimize</h3>
+          <p class="step-desc">Upload your resume to parse your skills and generate a base employability score. Let our AI tailor your profile for your target industry.</p>
+        </div>
+        <div class="step-arrow-line"><i data-lucide="arrow-right"></i></div>
+        <!-- Step 2 -->
+        <div class="step-card">
+          <div class="step-number">02</div>
+          <h3 class="step-title">Discover & Match</h3>
+          <p class="step-desc">Search roles with verified student-criteria. View your resume keyword matching percentage and instantly click to apply to open roles.</p>
+        </div>
+        <div class="step-arrow-line"><i data-lucide="arrow-right"></i></div>
+        <!-- Step 3 -->
+        <div class="step-card">
+          <div class="step-number">03</div>
+          <h3 class="step-title">Track & Prepare</h3>
+          <p class="step-desc">Our browser extension automatically logs your application to your Kanban dashboard. Track deadline assessments and access prep guides.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Student Success Stories Section -->
+  <section id="success" class="success-section">
+    <div class="container">
+      <div class="section-header">
+        <h2 class="section-title">From Search to <span class="gradient-text">Signing the Offer</span></h2>
+        <p class="section-subtitle">See how students from all backgrounds used InternLink to bypass the resume black hole.</p>
+      </div>
+      <div class="success-grid">
+        <!-- Story 1 -->
+        <div class="glass-card success-card">
+          <div class="student-profile">
+            <div class="student-avatar avatar-1"></div>
+            <div>
+              <h4 class="student-name">Sarah Jenkins</h4>
+              <p class="student-company">Stripe Finance Intern</p>
+            </div>
+          </div>
+          <p class="student-quote">"As a sophomore, I had zero network. InternLink's resume builder helped me highlight my class projects, and the 'No Experience Required' filter led me directly to my Stripe offer!"</p>
+          <div class="success-footer">
+            <span class="success-badge"><i data-lucide="award"></i> First-time seeker</span>
+          </div>
+        </div>
+        <!-- Story 2 -->
+        <div class="glass-card success-card">
+          <div class="student-profile">
+            <div class="student-avatar avatar-2"></div>
+            <div>
+              <h4 class="student-name">Arjun Patel</h4>
+              <p class="student-company">Microsoft SWE Intern</p>
+            </div>
+          </div>
+          <p class="student-quote">"Applying to 100+ roles was burning me out. The Kanban tracker and automated assessment reminders saved my life. I didn't miss a single test deadline and signed with Microsoft!"</p>
+          <div class="success-footer">
+            <span class="success-badge"><i data-lucide="clock"></i> 32 days to offer</span>
+          </div>
+        </div>
+        <!-- Story 3 -->
+        <div class="glass-card success-card">
+          <div class="student-profile">
+            <div class="student-avatar avatar-3"></div>
+            <div>
+              <h4 class="student-name">Marcus Vance</h4>
+              <p class="student-company">Salesforce Ops Intern</p>
+            </div>
+          </div>
+          <p class="student-quote">"Transitioning careers in my late 20s while working part-time was incredibly hard. The paid/remote filters and transferable skills parser let me showcase my retail leadership skills."</p>
+          <div class="success-footer">
+            <span class="success-badge"><i data-lucide="refresh-cw"></i> Career Switcher</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ Section -->
+  <section id="faq" class="faq-section">
+    <div class="container faq-container">
+      <div class="section-header text-left">
+        <h2 class="section-title">Frequently Asked <span class="gradient-text">Questions</span></h2>
+        <p class="section-subtitle">Everything you need to know about navigating the internship hunt with InternLink.</p>
+      </div>
+      <div class="faq-accordion">
+        <!-- FAQ 1 -->
+        <div class="faq-item">
+          <button class="faq-trigger">
+            <span>How does the auto-tracking feature work?</span>
+            <span class="faq-icon-wrapper"><i data-lucide="chevron-down"></i></span>
+          </button>
+          <div class="faq-content">
+            <p>Our browser extension detects when you submit an application on sites like LinkedIn, Handshake, or corporate sites. It reads the company and role title to automatically create a tracking card in the 'Applied' column of your Kanban board, removing manual copy-paste operations.</p>
+          </div>
+        </div>
+        <!-- FAQ 2 -->
+        <div class="faq-item">
+          <button class="faq-trigger">
+            <span>Is InternLink free for university students?</span>
+            <span class="faq-icon-wrapper"><i data-lucide="chevron-down"></i></span>
+          </button>
+          <div class="faq-content">
+            <p>Yes, InternLink is 100% free for students. We partner with universities and corporate sponsors who list their roles on our platform to keep the student side completely free of charges.</p>
+          </div>
+        </div>
+        <!-- FAQ 3 -->
+        <div class="faq-item">
+          <button class="faq-trigger">
+            <span>How does the Resume Match Score calculate compatibility?</span>
+            <span class="faq-icon-wrapper"><i data-lucide="chevron-down"></i></span>
+          </button>
+          <div class="faq-content">
+            <p>Our AI parses the core technical terms, tools, and methodologies in your resume and compares them with the keywords listed under the job description. It calculates a matching score and provides a checklist of missing terms commonly flagged by corporate Applicant Tracking Systems (ATS).</p>
+          </div>
+        </div>
+        <!-- FAQ 4 -->
+        <div class="faq-item">
+          <button class="faq-trigger">
+            <span>Can I track off-campus internships?</span>
+            <span class="faq-icon-wrapper"><i data-lucide="chevron-down"></i></span>
+          </button>
+          <div class="faq-content">
+            <p>Absolutely. You can manually create a tracking card for any internship role in the world by entering its details, or use the browser extension to parse it directly from any job board.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA Banner Section -->
+  <section class="cta-banner-section">
+    <div class="container">
+      <div class="cta-banner glass-panel">
+        <h2 class="cta-title">Ready to Land Your Next Internship?</h2>
+        <p class="cta-desc">Join thousands of students who have organized their search, optimized their resumes, and secured interviews at leading tech companies.</p>
+        <div class="cta-buttons">
+          <a href="register.html" class="btn btn-primary btn-lg">Create Free Account</a>
+          <a href="internships.html" class="btn btn-outline btn-lg">Explore Postings</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer Section -->
+  <footer class="footer">
+    <div class="container footer-grid">
+      <div class="footer-brand">
+        <a href="index.html" class="logo">
+          <span class="logo-icon"><i data-lucide="link-2"></i></span>
+          <span class="logo-text">InternLink</span>
+        </a>
+        <p class="footer-tagline">Empowering university students to discover, track, and secure their professional future.</p>
+      </div>
+      <div class="footer-links">
+        <div class="footer-col">
+          <h5 class="footer-col-title">Product</h5>
+          <a href="#features" class="footer-link">Features</a>
+          <a href="#how-it-works" class="footer-link">How it Works</a>
+          <a href="#" class="footer-link">Browser Extension</a>
+        </div>
+        <div class="footer-col">
+          <h5 class="footer-col-title">Resources</h5>
+          <a href="#" class="footer-link">Resume Guides</a>
+          <a href="#" class="footer-link">Interview Prep</a>
+          <a href="#" class="footer-link">Salary Index</a>
+        </div>
+        <div class="footer-col">
+          <h5 class="footer-col-title">Legal</h5>
+          <a href="#" class="footer-link">Privacy Policy</a>
+          <a href="#" class="footer-link">Terms of Service</a>
+          <a href="#" class="footer-link">Accessibility</a>
+        </div>
+      </div>
+    </div>
+    <div class="container footer-bottom">
+      <p class="footer-copy">&copy; 2026 InternLink Inc. All rights reserved. Designed by Senior Product Designer.</p>
+      <div class="footer-socials">
+        <a href="#" class="social-link"><i data-lucide="github"></i></a>
+        <a href="#" class="social-link"><i data-lucide="linkedin"></i></a>
+        <a href="#" class="social-link"><i data-lucide="twitter"></i></a>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Initialization script for Lucide Icons -->
+  <script src="script.js"></script>
+</body>
+</html>

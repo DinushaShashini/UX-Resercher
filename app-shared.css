@@ -1,0 +1,57 @@
+/* Shared app utilities — auth banner */
+
+.auth-banner {
+  margin-bottom: 20px;
+  padding: 14px 18px;
+  border-radius: 12px;
+  background: rgba(79, 70, 229, 0.12);
+  border: 1px solid rgba(79, 70, 229, 0.28);
+}
+
+.auth-banner-content {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.auth-banner-text {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  font-size: 0.9rem;
+  color: #cbd5e1;
+}
+
+.auth-banner-text strong {
+  color: #f3f4f6;
+  font-weight: 600;
+}
+
+.auth-banner-actions {
+  display: flex;
+  gap: 10px;
+  flex-shrink: 0;
+}
+
+.btn-sm {
+  padding: 8px 14px;
+  font-size: 0.8125rem;
+}
+
+@media (max-width: 640px) {
+  .auth-banner-content {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .auth-banner-actions {
+    width: 100%;
+  }
+
+  .auth-banner-actions .btn {
+    flex: 1;
+    justify-content: center;
+  }
+}
