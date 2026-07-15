@@ -23,6 +23,7 @@
   <script src="https://unpkg.com/lucide@latest"></script>
 
   <link rel="stylesheet" href="profile.css" />
+  <link rel="stylesheet" href="app-shared.css" />
 </head>
 <body>
 
@@ -96,6 +97,8 @@
           </button>
         </div>
       </header>
+
+      <div class="auth-banner" id="authBanner" hidden aria-live="polite"></div>
 
       <!-- ════════════════════════════════════════════
            PROFILE HERO BANNER
@@ -515,6 +518,7 @@
     <button class="toast-dismiss" id="toastDismiss" aria-label="Dismiss"><i data-lucide="x"></i></button>
   </div>
 
+  <script src="session.js"></script>
   <script src="profile.js"></script>
 </body>
 </html>

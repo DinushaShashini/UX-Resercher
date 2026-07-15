@@ -1,465 +1,99 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Create Account — InternLink</title>
-  <meta name="description" content="Create your free InternLink account and start finding internships matched to your skills." />
-
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Outfit:wght@400;500;600;700&display=swap" rel="stylesheet" />
-
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sign Up — InternLink</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Outfit:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="auth.css">
   <script src="https://unpkg.com/lucide@latest"></script>
-  <link rel="stylesheet" href="auth.css" />
 </head>
-<body>
+<body class="auth-page">
 
-  <!-- Ambient blobs -->
-  <div class="auth-blob blob-a" aria-hidden="true"></div>
-  <div class="auth-blob blob-b" aria-hidden="true"></div>
+  <div class="glow-blob blob-1"></div>
+  <div class="glow-blob blob-3"></div>
 
-  <!-- ══════════════ TOP NAV ══════════════ -->
-  <nav class="auth-topnav">
-    <a href="index.html" class="logo" aria-label="InternLink home">
-      <span class="logo-icon">
-        <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
-      </span>
+  <header class="auth-header">
+    <a href="index.html" class="logo">
+      <span class="logo-icon"><i data-lucide="link-2"></i></span>
       <span class="logo-text">InternLink</span>
     </a>
-    <div class="nav-right">
-      <span class="nav-hint">Already have an account?</span>
-      <a href="login.html" class="btn-outline btn-sm">Log In</a>
-    </div>
-  </nav>
+  </header>
 
-  <!-- ══════════════ PAGE WRAPPER ══════════════ -->
-  <div class="auth-page-wrapper">
+  <main class="auth-layout">
+    <section class="auth-branding" aria-hidden="true">
+      <h1>Start your internship journey</h1>
+      <p>Join thousands of students who discover roles, track applications, and build employability in one place.</p>
+      <div class="auth-features">
+        <div class="auth-feature"><i data-lucide="check-circle"></i><span>Free for all university students</span></div>
+        <div class="auth-feature"><i data-lucide="check-circle"></i><span>Smart filters for visa, pay & experience</span></div>
+        <div class="auth-feature"><i data-lucide="check-circle"></i><span>Resume match & skill gap analysis</span></div>
+      </div>
+    </section>
 
-    <!-- ── LEFT ILLUSTRATION PANEL ── -->
-    <aside class="auth-left-panel" aria-hidden="true">
+    <section class="auth-card glass-panel">
+      <h2>Create your account</h2>
+      <p class="auth-subtitle">Set up your profile in under 2 minutes.</p>
 
-      <!-- SVG Illustration: students finding internships -->
-      <div class="auth-illustration-wrap">
-        <svg viewBox="0 0 480 360" xmlns="http://www.w3.org/2000/svg" aria-label="Students celebrating internship offers illustration">
-          <defs>
-            <linearGradient id="bgGrad2" x1="0%" y1="0%" x2="100%" y2="100%">
-              <stop offset="0%" style="stop-color:#0f172a"/>
-              <stop offset="100%" style="stop-color:#1e293b"/>
-            </linearGradient>
-            <filter id="glow2">
-              <feGaussianBlur stdDeviation="3" result="coloredBlur"/>
-              <feMerge><feMergeNode in="coloredBlur"/><feMergeNode in="SourceGraphic"/></feMerge>
-            </filter>
-          </defs>
+      <form class="auth-form" id="registerForm" novalidate>
+        <div class="form-row">
+          <div class="form-group">
+            <label for="regFirstName">First name</label>
+            <input type="text" id="regFirstName" name="firstName" placeholder="Sarah" required autocomplete="given-name">
+          </div>
+          <div class="form-group">
+            <label for="regLastName">Last name</label>
+            <input type="text" id="regLastName" name="lastName" placeholder="Jenkins" required autocomplete="family-name">
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="regEmail">University email</label>
+          <input type="email" id="regEmail" name="email" placeholder="you@university.edu" required autocomplete="email">
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label for="regMajor">Major</label>
+            <input type="text" id="regMajor" name="major" placeholder="Computer Science" required>
+          </div>
+          <div class="form-group">
+            <label for="regGradYear">Graduation year</label>
+            <select id="regGradYear" name="gradYear" required>
+              <option value="">Select year</option>
+              <option value="2026">2026</option>
+              <option value="2027">2027</option>
+              <option value="2028">2028</option>
+              <option value="2029">2029</option>
+            </select>
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="regPassword">Password</label>
+          <input type="password" id="regPassword" name="password" placeholder="Create a password (8+ chars)" required autocomplete="new-password" minlength="8">
+        </div>
+        <label class="form-check">
+          <input type="checkbox" id="agreeTerms" name="terms" required>
+          I agree to the Terms of Service and Privacy Policy
+        </label>
+        <button type="submit" class="btn btn-primary btn-lg w-full">Sign Up Free</button>
+      </form>
 
-          <rect width="480" height="360" fill="url(#bgGrad2)" rx="12"/>
+      <div class="auth-divider">or sign up with</div>
 
-          <!-- Floating orbs -->
-          <circle cx="50" cy="50" r="4" fill="rgba(16,185,129,0.5)" filter="url(#glow2)"/>
-          <circle cx="430" cy="40" r="3" fill="rgba(79,70,229,0.5)" filter="url(#glow2)"/>
-          <circle cx="440" cy="310" r="5" fill="rgba(6,182,212,0.4)" filter="url(#glow2)"/>
-          <circle cx="30" cy="300" r="3" fill="rgba(245,158,11,0.4)" filter="url(#glow2)"/>
-
-          <!-- Big central circle - "journey" metaphor -->
-          <circle cx="240" cy="170" r="100" fill="none" stroke="rgba(79,70,229,0.12)" stroke-width="1.5" stroke-dasharray="6,4"/>
-          <circle cx="240" cy="170" r="130" fill="none" stroke="rgba(6,182,212,0.08)" stroke-width="1" stroke-dasharray="3,6"/>
-
-          <!-- Center graduation cap icon -->
-          <g transform="translate(210, 140)">
-            <rect x="0" y="16" width="60" height="5" rx="2.5" fill="rgba(79,70,229,0.7)"/>
-            <polygon points="30,0 60,16 30,32 0,16" fill="rgba(79,70,229,0.5)" stroke="rgba(165,180,252,0.6)" stroke-width="1"/>
-            <rect x="50" y="16" width="3" height="20" rx="1.5" fill="rgba(165,180,252,0.6)"/>
-            <circle cx="51.5" cy="38" r="4" fill="rgba(245,158,11,0.7)"/>
-          </g>
-
-          <!-- Left student -->
-          <g transform="translate(60, 110)">
-            <circle cx="35" cy="45" r="28" fill="rgba(79,70,229,0.15)" stroke="rgba(79,70,229,0.3)" stroke-width="1"/>
-            <circle cx="35" cy="35" r="18" fill="#fbbf24"/>
-            <ellipse cx="35" cy="21" rx="18" ry="7" fill="#92400e"/>
-            <circle cx="28" cy="33" r="2.5" fill="#1e293b"/>
-            <circle cx="42" cy="33" r="2.5" fill="#1e293b"/>
-            <path d="M27 41 Q35 47 43 41" stroke="#92400e" stroke-width="1.5" fill="none" stroke-linecap="round"/>
-            <rect x="10" y="60" width="50" height="35" rx="10" fill="rgba(79,70,229,0.7)"/>
-            <rect x="18" y="90" width="12" height="30" rx="6" fill="#1e3a5f"/>
-            <rect x="34" y="90" width="12" height="30" rx="6" fill="#1e3a5f"/>
-            <!-- Speech bubble -->
-            <rect x="-5" y="-15" width="80" height="26" rx="8" fill="rgba(17,24,39,0.9)" stroke="rgba(16,185,129,0.5)" stroke-width="1"/>
-            <polygon points="30,-15 20,-25 40,-15" fill="rgba(17,24,39,0.9)"/>
-            <text x="8" y="-2" font-family="Inter,sans-serif" font-size="8" fill="rgba(110,231,183,0.9)" font-weight="600">Got an offer! 🎉</text>
-          </g>
-
-          <!-- Right student -->
-          <g transform="translate(330, 105)">
-            <circle cx="35" cy="45" r="28" fill="rgba(16,185,129,0.15)" stroke="rgba(16,185,129,0.3)" stroke-width="1"/>
-            <circle cx="35" cy="35" r="18" fill="#d97706"/>
-            <ellipse cx="35" cy="19" rx="19" ry="9" fill="#78350f"/>
-            <rect x="14" y="21" width="7" height="22" rx="3.5" fill="#78350f"/>
-            <rect x="49" y="21" width="7" height="22" rx="3.5" fill="#78350f"/>
-            <circle cx="28" cy="33" r="2.5" fill="#1e293b"/>
-            <circle cx="42" cy="33" r="2.5" fill="#1e293b"/>
-            <path d="M27 41 Q35 47 43 41" stroke="#78350f" stroke-width="1.5" fill="none" stroke-linecap="round"/>
-            <rect x="10" y="60" width="50" height="35" rx="10" fill="rgba(16,185,129,0.7)"/>
-            <rect x="18" y="90" width="12" height="30" rx="6" fill="#1e3a5f"/>
-            <rect x="34" y="90" width="12" height="30" rx="6" fill="#1e3a5f"/>
-            <!-- Speech bubble -->
-            <rect x="-10" y="-15" width="90" height="26" rx="8" fill="rgba(17,24,39,0.9)" stroke="rgba(6,182,212,0.5)" stroke-width="1"/>
-            <polygon points="35,-15 25,-25 45,-15" fill="rgba(17,24,39,0.9)"/>
-            <text x="4" y="-2" font-family="Inter,sans-serif" font-size="8" fill="rgba(103,232,249,0.9)" font-weight="600">87% match score!</text>
-          </g>
-
-          <!-- Onboarding steps timeline -->
-          <g transform="translate(100, 285)">
-            <rect width="280" height="50" rx="10" fill="rgba(17,24,39,0.7)" stroke="rgba(255,255,255,0.08)" stroke-width="1"/>
-            <!-- Step 1 -->
-            <circle cx="40" cy="25" r="14" fill="rgba(16,185,129,0.2)" stroke="rgba(16,185,129,0.5)" stroke-width="1.5"/>
-            <text x="35" y="30" font-family="Inter,sans-serif" font-size="11" fill="rgba(110,231,183,0.9)" font-weight="700">1</text>
-            <rect x="60" y="18" width="40" height="5" rx="2" fill="rgba(148,163,184,0.5)"/>
-            <rect x="60" y="26" width="28" height="3" rx="1.5" fill="rgba(148,163,184,0.3)"/>
-            <!-- Arrow -->
-            <text x="112" y="28" font-family="Inter,sans-serif" font-size="12" fill="rgba(79,70,229,0.6)">→</text>
-            <!-- Step 2 -->
-            <circle cx="140" cy="25" r="14" fill="rgba(79,70,229,0.2)" stroke="rgba(79,70,229,0.5)" stroke-width="1.5"/>
-            <text x="135" y="30" font-family="Inter,sans-serif" font-size="11" fill="rgba(165,180,252,0.9)" font-weight="700">2</text>
-            <rect x="160" y="18" width="40" height="5" rx="2" fill="rgba(148,163,184,0.5)"/>
-            <rect x="160" y="26" width="30" height="3" rx="1.5" fill="rgba(148,163,184,0.3)"/>
-            <!-- Arrow -->
-            <text x="210" y="28" font-family="Inter,sans-serif" font-size="12" fill="rgba(6,182,212,0.6)">→</text>
-            <!-- Step 3 -->
-            <circle cx="240" cy="25" r="14" fill="rgba(245,158,11,0.2)" stroke="rgba(245,158,11,0.5)" stroke-width="1.5"/>
-            <text x="235" y="30" font-family="Inter,sans-serif" font-size="11" fill="rgba(253,230,138,0.9)" font-weight="700">3</text>
-          </g>
-
-          <!-- Stars -->
-          <text x="95" y="260" font-size="16" fill="rgba(253,230,138,0.6)">★</text>
-          <text x="360" y="255" font-size="14" fill="rgba(165,180,252,0.5)">★</text>
-          <text x="225" y="105" font-size="10" fill="rgba(103,232,249,0.6)">✦</text>
-          <text x="40" y="200" font-size="12" fill="rgba(110,231,183,0.4)">✦</text>
-          <text x="430" y="190" font-size="10" fill="rgba(165,180,252,0.4)">✦</text>
-        </svg>
+      <div class="auth-social">
+        <button type="button" class="btn btn-social" id="googleRegisterBtn"><i data-lucide="mail"></i> Continue with Google</button>
+        <button type="button" class="btn btn-social" id="universityLoginBtn"><i data-lucide="graduation-cap"></i> Continue with University ID</button>
       </div>
 
-      <div class="auth-left-headline">
-        <h2>Start your<br /><span class="gradient-text">internship journey.</span></h2>
-        <p>Join thousands of students who discover roles, track applications, and build employability in one place.</p>
-      </div>
+      <p class="auth-footer-text">
+        Already have an account? <a href="login.html">Log in</a>
+      </p>
+    </section>
+  </main>
 
-      <div class="auth-feature-list">
-        <div class="auth-feature-item">
-          <span class="af-check"><i data-lucide="check"></i></span>
-          100% free for all university students
-        </div>
-        <div class="auth-feature-item">
-          <span class="af-check"><i data-lucide="check"></i></span>
-          Smart filters: visa, pay &amp; experience level
-        </div>
-        <div class="auth-feature-item">
-          <span class="af-check"><i data-lucide="check"></i></span>
-          AI resume match &amp; skill gap analysis
-        </div>
-        <div class="auth-feature-item">
-          <span class="af-check"><i data-lucide="check"></i></span>
-          Kanban tracker — never miss a deadline
-        </div>
-      </div>
-
-      <div class="auth-stats-strip">
-        <div class="auth-stat">
-          <span class="auth-stat-val">10k+</span>
-          <span class="auth-stat-label">Students</span>
-        </div>
-        <div class="auth-stat-div"></div>
-        <div class="auth-stat">
-          <span class="auth-stat-val">500+</span>
-          <span class="auth-stat-label">Companies</span>
-        </div>
-        <div class="auth-stat-div"></div>
-        <div class="auth-stat">
-          <span class="auth-stat-val">2 min</span>
-          <span class="auth-stat-label">Setup time</span>
-        </div>
-      </div>
-
-    </aside>
-
-    <!-- ── RIGHT FORM PANEL ── -->
-    <main class="auth-right-panel">
-      <div class="auth-form-card glass-panel">
-
-        <div class="auth-card-icon"><i data-lucide="user-plus"></i></div>
-        <h1 class="auth-card-title">Create your account</h1>
-        <p class="auth-card-sub">Free forever · Set up in under 2 minutes</p>
-
-        <!-- OAuth buttons -->
-        <div class="oauth-grid">
-          <button type="button" class="oauth-btn oauth-btn-full" id="googleRegisterBtn" aria-label="Continue with Google">
-            <svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true">
-              <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
-              <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
-              <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/>
-              <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/>
-            </svg>
-            Continue with Google
-          </button>
-        </div>
-
-        <div class="auth-divider"><span>or create account with email</span></div>
-
-        <!-- Registration Form -->
-        <form id="registerForm" class="form-body" novalidate>
-
-          <!-- Full Name (single field) -->
-          <div class="form-group" id="fg-fullname">
-            <label class="form-label" for="regFullName">
-              <span class="form-label-text">Full Name <span class="label-required">*</span></span>
-            </label>
-            <div class="input-wrap" id="iw-fullname">
-              <i data-lucide="user" class="field-icon"></i>
-              <input
-                type="text"
-                id="regFullName"
-                class="form-input"
-                placeholder="Sarah Jenkins"
-                autocomplete="name"
-                required
-                aria-describedby="fullNameErr"
-              />
-            </div>
-            <span class="field-error" id="fullNameErr" role="alert" aria-live="polite"></span>
-          </div>
-
-          <!-- University -->
-          <div class="form-group" id="fg-university">
-            <label class="form-label" for="regUniversity">
-              <span class="form-label-text">University <span class="label-required">*</span></span>
-            </label>
-            <div class="input-wrap" id="iw-university">
-              <i data-lucide="building-2" class="field-icon"></i>
-              <input
-                type="text"
-                id="regUniversity"
-                class="form-input"
-                placeholder="University of Texas at Austin"
-                autocomplete="organization"
-                required
-                aria-describedby="universityErr"
-              />
-            </div>
-            <span class="field-error" id="universityErr" role="alert" aria-live="polite"></span>
-          </div>
-
-          <!-- Email -->
-          <div class="form-group" id="fg-email">
-            <label class="form-label" for="regEmail">
-              <span class="form-label-text">University / Personal Email <span class="label-required">*</span></span>
-            </label>
-            <div class="input-wrap" id="iw-email">
-              <i data-lucide="mail" class="field-icon"></i>
-              <input
-                type="email"
-                id="regEmail"
-                class="form-input"
-                placeholder="you@university.edu"
-                autocomplete="email"
-                required
-                aria-describedby="emailErr"
-              />
-            </div>
-            <span class="field-error" id="emailErr" role="alert" aria-live="polite"></span>
-          </div>
-
-          <!-- Field of Study + Graduation Year -->
-          <div class="form-row-2">
-            <div class="form-group" id="fg-field">
-              <label class="form-label" for="regFieldOfStudy">
-                <span class="form-label-text">Field of Study <span class="label-required">*</span></span>
-              </label>
-              <div class="input-wrap select-wrap" id="iw-field">
-                <i data-lucide="book-open" class="field-icon"></i>
-                <select id="regFieldOfStudy" class="form-select form-input" required aria-describedby="fieldErr">
-                  <option value="">Select your field…</option>
-                  <optgroup label="Engineering &amp; Technology">
-                    <option value="computer-science">Computer Science</option>
-                    <option value="software-engineering">Software Engineering</option>
-                    <option value="electrical-engineering">Electrical Engineering</option>
-                    <option value="mechanical-engineering">Mechanical Engineering</option>
-                    <option value="data-science">Data Science</option>
-                    <option value="cybersecurity">Cybersecurity</option>
-                    <option value="information-systems">Information Systems</option>
-                  </optgroup>
-                  <optgroup label="Business &amp; Management">
-                    <option value="business-administration">Business Administration</option>
-                    <option value="finance">Finance</option>
-                    <option value="marketing">Marketing</option>
-                    <option value="accounting">Accounting</option>
-                    <option value="management">Management</option>
-                    <option value="economics">Economics</option>
-                  </optgroup>
-                  <optgroup label="Design &amp; Arts">
-                    <option value="ux-design">UX / Product Design</option>
-                    <option value="graphic-design">Graphic Design</option>
-                    <option value="architecture">Architecture</option>
-                    <option value="fine-arts">Fine Arts</option>
-                  </optgroup>
-                  <optgroup label="Sciences">
-                    <option value="biology">Biology</option>
-                    <option value="chemistry">Chemistry</option>
-                    <option value="physics">Physics</option>
-                    <option value="environmental-science">Environmental Science</option>
-                  </optgroup>
-                  <optgroup label="Humanities &amp; Social Sciences">
-                    <option value="psychology">Psychology</option>
-                    <option value="communications">Communications</option>
-                    <option value="political-science">Political Science</option>
-                    <option value="sociology">Sociology</option>
-                    <option value="english">English / Literature</option>
-                  </optgroup>
-                  <option value="other">Other</option>
-                </select>
-                <i data-lucide="chevron-down" class="select-arrow"></i>
-              </div>
-              <span class="field-error" id="fieldErr" role="alert" aria-live="polite"></span>
-            </div>
-
-            <div class="form-group" id="fg-gradyear">
-              <label class="form-label" for="regGradYear">
-                <span class="form-label-text">Graduation Year <span class="label-required">*</span></span>
-              </label>
-              <div class="input-wrap select-wrap" id="iw-gradyear">
-                <i data-lucide="calendar" class="field-icon"></i>
-                <select id="regGradYear" class="form-select form-input" required aria-describedby="gradYearErr">
-                  <option value="">Select year…</option>
-                  <option value="2025">2025 (Graduating)</option>
-                  <option value="2026">2026</option>
-                  <option value="2027">2027</option>
-                  <option value="2028">2028</option>
-                  <option value="2029">2029</option>
-                  <option value="2030">2030</option>
-                </select>
-                <i data-lucide="chevron-down" class="select-arrow"></i>
-              </div>
-              <span class="field-error" id="gradYearErr" role="alert" aria-live="polite"></span>
-            </div>
-          </div>
-
-          <!-- Password -->
-          <div class="form-group" id="fg-password">
-            <label class="form-label" for="regPassword">
-              <span class="form-label-text">Password <span class="label-required">*</span></span>
-            </label>
-            <div class="input-wrap" id="iw-password">
-              <i data-lucide="lock" class="field-icon"></i>
-              <input
-                type="password"
-                id="regPassword"
-                class="form-input"
-                placeholder="Create a strong password (min 8 chars)"
-                autocomplete="new-password"
-                required
-                minlength="8"
-                aria-describedby="passwordErr"
-              />
-              <button
-                type="button"
-                class="pwd-toggle-btn"
-                id="regPwdToggle"
-                aria-label="Show password"
-                aria-pressed="false"
-              >
-                <i data-lucide="eye" id="regEyeIcon"></i>
-              </button>
-            </div>
-            <!-- Password strength meter -->
-            <div class="password-strength-wrap" id="strengthWrap" style="display:none">
-              <div class="strength-bars">
-                <div class="strength-bar" id="sb1"></div>
-                <div class="strength-bar" id="sb2"></div>
-                <div class="strength-bar" id="sb3"></div>
-                <div class="strength-bar" id="sb4"></div>
-              </div>
-              <span class="strength-label" id="strengthLabel">Too short</span>
-            </div>
-            <span class="field-error" id="passwordErr" role="alert" aria-live="polite"></span>
-          </div>
-
-          <!-- Confirm Password -->
-          <div class="form-group" id="fg-confirm">
-            <label class="form-label" for="regConfirmPassword">
-              <span class="form-label-text">Confirm Password <span class="label-required">*</span></span>
-            </label>
-            <div class="input-wrap" id="iw-confirm">
-              <i data-lucide="shield-check" class="field-icon"></i>
-              <input
-                type="password"
-                id="regConfirmPassword"
-                class="form-input"
-                placeholder="Re-enter your password"
-                autocomplete="new-password"
-                required
-                aria-describedby="confirmErr"
-              />
-              <button
-                type="button"
-                class="pwd-toggle-btn"
-                id="regConfirmToggle"
-                aria-label="Show confirm password"
-                aria-pressed="false"
-              >
-                <i data-lucide="eye" id="confirmEyeIcon"></i>
-              </button>
-            </div>
-            <span class="field-error" id="confirmErr" role="alert" aria-live="polite"></span>
-          </div>
-
-          <!-- Terms & Privacy -->
-          <div class="terms-row">
-            <input type="checkbox" id="agreeTerms" required aria-describedby="termsErr" />
-            <span>
-              I agree to InternLink's
-              <a href="#" target="_blank" rel="noopener">Terms of Service</a>
-              and
-              <a href="#" target="_blank" rel="noopener">Privacy Policy</a>
-            </span>
-          </div>
-          <span class="field-error" id="termsErr" role="alert" aria-live="polite"></span>
-
-          <!-- Global error -->
-          <div class="global-error" id="registerGlobalErr" role="alert">
-            <i data-lucide="alert-circle"></i>
-            <span id="registerErrMsg">Something went wrong. Please try again.</span>
-          </div>
-
-          <!-- Submit: Create Account -->
-          <button type="submit" class="btn-auth-submit" id="registerSubmitBtn">
-            <span id="registerBtnLabel">Create Free Account</span>
-            <i data-lucide="loader" class="btn-spinner" id="registerSpinner" style="display:none"></i>
-          </button>
-
-        </form>
-
-        <!-- Success state (shown after submit) -->
-        <div class="auth-success-state" id="registerSuccess">
-          <div class="success-icon"><i data-lucide="check-circle-2"></i></div>
-          <p class="success-title">Account created! 🎉</p>
-          <p class="success-sub">Taking you to your dashboard…</p>
-        </div>
-
-        <p class="auth-card-footer">
-          Already have an account? <a href="login.html">Log in →</a>
-        </p>
-
-      </div>
-    </main>
-
-  </div><!-- /auth-page-wrapper -->
-
-  <!-- Toast -->
-  <div class="toast" id="toast" role="alert" aria-live="assertive">
-    <span class="toast-icon" id="toastIcon"><i data-lucide="check-circle"></i></span>
-    <span id="toastMsg"></span>
-  </div>
-
-  <script src="auth.js"></script>
+  <script src="session.js"></script>
+  <script>lucide.createIcons();</script>
 </body>
 </html>

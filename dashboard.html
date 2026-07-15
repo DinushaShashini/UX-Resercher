@@ -14,6 +14,7 @@
   <script src="https://unpkg.com/lucide@latest"></script>
   <!-- Styling -->
   <link rel="stylesheet" href="dashboard.css">
+  <link rel="stylesheet" href="app-shared.css">
 </head>
 <body>
 
@@ -128,6 +129,8 @@
           </div>
         </div>
       </header>
+
+      <div class="auth-banner" id="authBanner" hidden aria-live="polite"></div>
 
       <!-- Statistics Grid -->
       <section class="stats-grid">
@@ -312,6 +315,7 @@
   </div>
 
   <!-- JavaScript -->
+  <script src="session.js"></script>
   <script src="dashboard.js"></script>
 </body>
 </html>

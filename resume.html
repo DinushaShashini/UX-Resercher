@@ -18,6 +18,7 @@
   <script src="https://unpkg.com/lucide@latest"></script>
 
   <link rel="stylesheet" href="resume.css" />
+  <link rel="stylesheet" href="app-shared.css" />
 </head>
 <body>
 
@@ -85,6 +86,8 @@
           <input type="file" id="fileInput" accept=".pdf,.docx" hidden aria-label="Upload resume file" />
         </div>
       </header>
+
+      <div class="auth-banner" id="authBanner" hidden aria-live="polite"></div>
 
       <!-- ════════════════════════════════════════════
            MAIN GRID
@@ -548,6 +551,7 @@
     <button class="toast-dismiss" id="toastDismiss" aria-label="Dismiss"><i data-lucide="x"></i></button>
   </div>
 
+  <script src="session.js"></script>
   <script src="resume.js"></script>
 </body>
 </html>
